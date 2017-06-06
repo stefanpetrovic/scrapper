@@ -1,0 +1,22 @@
+<html>
+<body>
+<table>
+    <tr>
+        <th>URL</th>
+        <th>Description</th>
+        <th>Address</th>
+        <th>Area</th>
+        <th>Price</th>
+        <th>Rooms</th>
+    </tr>
+    <#list appartments as appartment>
+        <td>${appartment.url}</td>
+        <td>${appartment.description}</td>
+        <td>${appartment.address}</td>
+        <td>${appartment.area}</td>
+        <td>${appartment.price}</td>
+        <td>${appartment.noOfRooms}</td>
+    </#list>
+</table>
+</body>
+</html>

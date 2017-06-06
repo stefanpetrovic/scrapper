@@ -1,48 +1,43 @@
 package scrapper;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
-import java.util.Iterator;
+import java.util.Properties;
 
 @SpringBootApplication
+@EnableScheduling
 public class Scrapper {
 
-    private static final Logger log = LoggerFactory.getLogger(Scrapper.class);
+    @Autowired
+    private Environment env;
 
     public static void main(String[] args) {
-        RestTemplate restTemplate = new RestTemplate();
+        SpringApplication.run(Scrapper.class, args);
+    }
 
-        String page = restTemplate.getForObject("https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd?cena_d_to=60000&cena_d_unit=4&kvadratura_d_from=60&kvadratura_d_unit=1", String.class);
+    @Bean
+    public JavaMailSender getJavaMailSender() {
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.gmail.com");
+        mailSender.setPort(587);
 
-        System.out.println("Fetched page");
+        mailSender.setUsername(env.getRequiredProperty("email.username"));
+        mailSender.setPassword(env.getRequiredProperty("email.password"));
 
-        Document doc = Jsoup.parse(page);
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "true");
 
-        doc.getElementsByTag("script").remove();
-
-        Elements elems = doc.getElementsByAttribute("data-value");
-
-        Iterator<Element> iterable = elems.iterator();
-        while (iterable.hasNext()) {
-
-            Element el = iterable.next();
-            try {
-                Double price = Double.parseDouble(el.attr("data-value"));
-            } catch (NumberFormatException ex) {
-                log.info("Failed to convert price: ", ex.getMessage());
-                log.info("Element: {}", el);
-            }
-            System.out.println();
-        }
-
-
+        return mailSender;
     }
 
 }

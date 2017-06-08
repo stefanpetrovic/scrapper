@@ -48,7 +48,8 @@ public class ApartmentRecommender {
         return new String[] {
                 "Borča",
                 "Altina",
-                "Višnjička Banja"
+                "Višnjička Banja",
+                "Rakovica"
         };
     }
 

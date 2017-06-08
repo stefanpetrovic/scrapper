@@ -14,6 +14,8 @@ public class Apartment {
     private Double noOfRooms;
     private ApartmentSource source;
     private String externalId;
+    private boolean recommended;
+    private String message;
 
     public String getId() {
         return id;
@@ -85,5 +87,21 @@ public class Apartment {
 
     public void setExternalId(String externalId) {
         this.externalId = externalId;
+    }
+
+    public boolean isRecommended() {
+        return recommended;
+    }
+
+    public void setRecommended(boolean recommended) {
+        this.recommended = recommended;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

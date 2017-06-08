@@ -43,7 +43,11 @@ public class Processor {
         for (Apartment a : apartments) {
             RecommendationResponse response = recommender.analyzeApartment(a);
 
-            if (response.isRecommended()) {
+            boolean isRecommended = response.isRecommended();
+            a.setRecommended(isRecommended);
+            a.setMessage(response.getMessage());
+
+            if (isRecommended) {
                 recommendedApartments.add(a);
             } else {
                 log.info("Apartment not recommended: [url: {}, reason: {}]", a.getUrl(), response.getMessage());
@@ -51,7 +55,7 @@ public class Processor {
         }
 
         try {
-            emailSender.sendEmail(apartments);
+            emailSender.sendEmail(recommendedApartments);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (TemplateException e) {

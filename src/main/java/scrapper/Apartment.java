@@ -1,6 +1,6 @@
 package scrapper;
 
-public class Appartment {
+public class Apartment {
 
     private Double price;
     private String url;
@@ -8,6 +8,8 @@ public class Appartment {
     private String address;
     private Double area;
     private Double noOfRooms;
+    private ApartmentSource source;
+    private String externalId;
 
     public Double getPrice() {
         return price;
@@ -55,5 +57,21 @@ public class Appartment {
 
     public void setNoOfRooms(Double noOfRooms) {
         this.noOfRooms = noOfRooms;
+    }
+
+    public ApartmentSource getSource() {
+        return source;
+    }
+
+    public void setSource(ApartmentSource source) {
+        this.source = source;
+    }
+
+    public String getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
     }
 }

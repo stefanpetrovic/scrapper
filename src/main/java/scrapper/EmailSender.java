@@ -27,18 +27,18 @@ public class EmailSender {
     private Configuration freemarkerConfig;
 
     private String receiver = "petrovicstefan91@gmail.com";
-    private String subject = "Appartments";
+    private String subject = "Apartments";
 
-    public void sendEmail(List<Appartment> apartments) throws IOException, TemplateException, MessagingException {
+    public void sendEmail(List<Apartment> apartments) throws IOException, TemplateException, MessagingException {
 
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
         helper.setTo(receiver);
         helper.setSubject(subject);
 
-        Template template = freemarkerConfig.getTemplate("appartments.ftl");
+        Template template = freemarkerConfig.getTemplate("apartments.ftl");
         Map<String, Object> map = new HashMap<>();
-        map.put("appartments", apartments);
+        map.put("apartments", apartments);
         String content = processTemplateIntoString(template, map);
 
         helper.setText(content, true);

@@ -1,6 +1,5 @@
 package scrapper;
 
-import freemarker.template.TemplateException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -8,17 +7,14 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
-import javax.mail.MessagingException;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import static org.springframework.util.StringUtils.isEmpty;
+import static scrapper.ApartmentSource.HALO_OGLASI;
 
 @Component
 public class ApartmentExtractor {
@@ -26,7 +22,7 @@ public class ApartmentExtractor {
     private static final Logger log = LoggerFactory.getLogger(ApartmentExtractor.class);
     private static final String HALO_OGLASI_URL_PREFIX = "https://www.halooglasi.com";
 
-    private Document fetchApartmentsPage() {
+    public Document fetchApartmentsPage() {
         RestTemplate restTemplate = new RestTemplate();
 
         String page = restTemplate.getForObject("https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd?cena_d_to=60000&cena_d_unit=4&kvadratura_d_from=60&kvadratura_d_unit=1", String.class);
@@ -36,89 +32,66 @@ public class ApartmentExtractor {
         return Jsoup.parse(page);
     }
 
-    public void fetchApartments() {
-        RestTemplate restTemplate = new RestTemplate();
+    public Apartment extractApartment(Element element) {
+        String priceStr = element.select("div.central-feature span i").html();
 
-        String page = restTemplate.getForObject("https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd?cena_d_to=60000&cena_d_unit=4&kvadratura_d_from=60&kvadratura_d_unit=1", String.class);
+        Double price = priceConverter(priceExtractor(priceStr));
 
-        System.out.println("Fetched page");
+        if (price > 10000){
+            String url = urlExtractor(element);
 
-        Document doc = Jsoup.parse(page);
+            String description = descriptionExtractor(element);
 
-        Elements apartments = doc.select(getAppartmentSelector());
+            String address = addressExtractor(element);
+
+            Double area = areaExtractor(element);
+
+            Double rooms = roomExtractor(element);
+
+            String externalId = externalIdExtractor(element);
+
+            Apartment apartment = new Apartment();
+            apartment.setPrice(price);
+            apartment.setUrl(HALO_OGLASI_URL_PREFIX + url);
+            apartment.setDescription(description);
+            apartment.setAddress(address);
+            apartment.setArea(area);
+            apartment.setNoOfRooms(rooms);
+            apartment.setSource(HALO_OGLASI);
+            apartment.setExternalId(externalId);
+
+            return apartment;
+        }
+
+        return null;
+    }
+
+    public List<Apartment> extractApartmentsElements(Document document) {
+        Elements apartments = document.select(getAppartmentSelector());
 
         Iterator<Element> apartmentIterator = apartments.iterator();
 
-        List<Appartment> apartmentList = new ArrayList<>();
+        List<Apartment> apartmentList = new ArrayList<>();
 
         while (apartmentIterator.hasNext()) {
             Element el = apartmentIterator.next();
 
-            String priceStr =el.select("div.central-feature span i").html();
+            Apartment apartment = extractApartment(el);
 
-
-            Double price = priceConverter(priceExtractor(priceStr));
-
-            if (StringUtils.isEmpty(price) || price <= 10000){
-                continue;
+            if (apartment != null) {
+                apartmentList.add(apartment);
             }
-
-            String url = urlExtractor(el);
-
-            String description = descriptionExtractor(el);
-
-            String address = addressExtractor(el);
-
-            Double area = areaExtractor(el);
-
-            Double rooms = roomExtractor(el);
-
-
-            Appartment appartment = new Appartment();
-            appartment.setPrice(price);
-            appartment.setUrl(HALO_OGLASI_URL_PREFIX + url);
-            appartment.setDescription(description);
-            appartment.setAddress(address);
-            appartment.setArea(area);
-            appartment.setNoOfRooms(rooms);
-
-            apartmentList.add(appartment);
-
         }
 
-        try {
-            sendEmail(apartmentList);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (TemplateException e) {
-            e.printStackTrace();
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-
-        //Document document = Jsoup.parseBodyFragment(appartments.toString());
-
-
-        //printHtmlToFile("app.html", document);
-
-
+        return apartmentList;
     }
-
 
     private static String getAppartmentSelector() {
         return ".product-item.product-list-item";
     }
 
-    private static void printHtmlToFile(String filename, Document document) {
-        File file = new File(filename);
-
-        try (FileWriter fos = new FileWriter(file)){
-            fos.write(document.toString());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private static String externalIdExtractor(Element element) {
+        return element.attr("data-id");
     }
 
     private static String priceExtractor(String rawPrice) {
@@ -132,7 +105,7 @@ public class ApartmentExtractor {
     }
 
     private static Double priceConverter(String rawPrice) {
-        if (StringUtils.isEmpty(rawPrice)) {
+        if (isEmpty(rawPrice)) {
             return 0.0;
         }
 

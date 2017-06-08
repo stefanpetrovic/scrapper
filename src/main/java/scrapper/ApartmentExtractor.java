@@ -79,9 +79,12 @@ public class ApartmentExtractor {
             Apartment apartment = extractApartment(el);
 
             if (apartment != null) {
+                log.debug("Extracted apartment: [externalId: {}, url: {}]", apartment.getExternalId(), apartment.getUrl());
                 apartmentList.add(apartment);
             }
         }
+
+        log.info("Extracted {} apartments", apartmentList.size());
 
         return apartmentList;
     }

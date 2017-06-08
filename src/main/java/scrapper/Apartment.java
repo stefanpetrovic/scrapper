@@ -1,7 +1,11 @@
 package scrapper;
 
+import org.springframework.data.annotation.Id;
+
 public class Apartment {
 
+    @Id
+    private String id;
     private Double price;
     private String url;
     private String description;
@@ -10,6 +14,14 @@ public class Apartment {
     private Double noOfRooms;
     private ApartmentSource source;
     private String externalId;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Double getPrice() {
         return price;

@@ -49,7 +49,16 @@ public class ApartmentRecommender {
                 "Borča",
                 "Altina",
                 "Višnjička Banja",
-                "Rakovica"
+                "Rakovica",
+                "Opština Grocka",
+                "Batajnica",
+                "Kumodraž",
+                "Ledine",
+                "Mirijevski Bulevar",
+                "Bežanija",
+                "Dr Ivana Ribara",
+                "Cerak"
+
         };
     }
 

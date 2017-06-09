@@ -30,9 +30,8 @@ public class Processor {
     @Autowired
     private ApartmentRecommender recommender;
 
-    @Scheduled(fixedDelay = 100000)
-    public void processHaloOglasi() {
-        Document document = extractor.fetchApartmentsPage();
+    public List<Apartment> processHaloOglasi(int page) {
+        Document document = extractor.fetchApartmentsPage(page);
 
         List<Apartment> apartments = extractor.extractApartmentsElements(document);
 
@@ -52,6 +51,17 @@ public class Processor {
             } else {
                 log.info("Apartment not recommended: [url: {}, reason: {}]", a.getUrl(), response.getMessage());
             }
+        }
+
+        return recommendedApartments;
+    }
+
+    @Scheduled(fixedDelay = 100000)
+    public void process() {
+        List<Apartment> recommendedApartments = new ArrayList<>();
+
+        for (int i = 11; i < 21; i++) {
+            recommendedApartments.addAll(processHaloOglasi(i));
         }
 
         try {

@@ -21,11 +21,12 @@ public class ApartmentExtractor {
 
     private static final Logger log = LoggerFactory.getLogger(ApartmentExtractor.class);
     private static final String HALO_OGLASI_URL_PREFIX = "https://www.halooglasi.com";
+    private static final String PAGE_PARAM = "&page={page}";
 
-    public Document fetchApartmentsPage() {
+    public Document fetchApartmentsPage(int pageNum) {
         RestTemplate restTemplate = new RestTemplate();
 
-        String page = restTemplate.getForObject("https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd?cena_d_to=60000&cena_d_unit=4&kvadratura_d_from=60&kvadratura_d_unit=1", String.class);
+        String page = restTemplate.getForObject("https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd?cena_d_to=60000&cena_d_unit=4&kvadratura_d_from=60&kvadratura_d_unit=1&page={page}", String.class, pageNum);
 
         log.info("Fetched page");
 

@@ -57,8 +57,9 @@ public class ApartmentRecommender {
                 "Mirijevski Bulevar",
                 "Bežanija",
                 "Dr Ivana Ribara",
-                "Cerak"
-
+                "Cerak",
+                "Mihaila Bulgakova",
+                "Zemun polje"
         };
     }
 

@@ -36,11 +36,11 @@ public class Processor {
 
         List<Apartment> apartments = extractor.extractApartmentsElements(document);
 
-        apartmentStorage.storeApartments(apartments);
+        List<Apartment> storedApartments = apartmentStorage.storeApartments(apartments);
 
         List<Apartment> recommendedApartments = new ArrayList<>();
 
-        for (Apartment a : apartments) {
+        for (Apartment a : storedApartments) {
             RecommendationResponse response = recommender.analyzeApartment(a);
 
             boolean isRecommended = response.isRecommended();

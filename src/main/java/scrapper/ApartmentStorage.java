@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -17,23 +18,26 @@ public class ApartmentStorage {
     private ApartmentRepository apartmentRepository;
 
     @Transactional
-    public void storeApartments(List<Apartment> apartments) {
+    public List<Apartment> storeApartments(List<Apartment> apartments) {
+        List<Apartment> storedApartments = new ArrayList<>();
         if (apartments == null || apartments.isEmpty()) {
-            return;
+            return storedApartments;
         }
 
         for(Apartment apartment : apartments) {
-            Apartment storedApartment =
+            Apartment apartmentToStore =
                     apartmentRepository.findByExternalIdAndSource(apartment.getExternalId(), apartment.getSource().name());
 
-            if (storedApartment == null) {
-                apartmentRepository.save(apartment);
+            if (apartmentToStore == null) {
+                Apartment storedApartment = apartmentRepository.save(apartment);
                 log.info("Apartment stored in DB: [externalId: {}, url: {}", apartment.getExternalId(), apartment.getUrl());
+                storedApartments.add(storedApartment);
             } else {
                 log.info("Apartment already exists in DB: [externalId: {}, url: {}]",
                         apartment.getExternalId(), apartment.getUrl());
             }
         }
 
+        return storedApartments;
     }
 }

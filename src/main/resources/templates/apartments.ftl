@@ -1,28 +1,20 @@
 <html>
 <body>
-<table>
+<table style="border: 2px solid black; border-collapse: collapse;">
     <tr>
-        <th>URL</th>
-        <th>Description</th>
-        <th>Address</th>
-        <th>Area</th>
-        <th>Price</th>
-        <th>Rooms</th>
-        <th>Price per square meter</th>
-        <th>ExternalId</th>
+        <th style="border-bottom: 1px solid black; width: 200px;">URL</th>
+        <th style="border-bottom: 1px solid black; width: 200px;">Description</th>
+        <th style="border-bottom: 1px solid black;">Area</th>
+        <th style="border-bottom: 1px solid black;">Price per square meter</th>
     </tr>
-    <#list apartments as apartment>
+<#list apartments as apartment>
     <tr>
-        <td><a href="${apartment.url!}">${apartment.url!}</a></td>
-        <td>${apartment.description!}</td>
-        <td>${apartment.address!}</td>
-        <td>${apartment.area!}</td>
-        <td>${apartment.price!}</td>
-        <td>${apartment.noOfRooms!}</td>
-        <td>${apartment.price / apartment.area}</td>
-        <td>${apartment.externalId!}</td>
+        <td style="border-bottom: 1px solid black; width: 200px;"><a href="${apartment.url!}">${apartment.url!}</a></td>
+        <td style="border-bottom: 1px solid black; width: 200px;">${apartment.description!}</td>
+        <td style="border-bottom: 1px solid black;">${apartment.area!}</td>
+        <td style="border-bottom: 1px solid black;">${apartment.price / apartment.area}</td>
     </tr>
-    </#list>
+</#list>
 </table>
 </body>
 </html>

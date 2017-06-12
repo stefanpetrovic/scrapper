@@ -59,7 +59,12 @@ public class ApartmentRecommender {
                 "Dr Ivana Ribara",
                 "Cerak",
                 "Mihaila Bulgakova",
-                "Zemun polje"
+                "Zemun polje",
+                "Krnjača",
+                "Galenika",
+                "Obrenovac",
+                "Padinska skela",
+                "Medaković 3"
         };
     }
 

@@ -19,7 +19,7 @@ public class Processor {
     private static final Logger log = LoggerFactory.getLogger(Processor.class);
 
     @Autowired
-    private ApartmentExtractor extractor;
+    private HaloOglasiApartmentExtractor extractor;
 
     @Autowired
     private EmailSender emailSender;
@@ -60,7 +60,7 @@ public class Processor {
     public void process() {
         List<Apartment> recommendedApartments = new ArrayList<>();
 
-        for (int i = 11; i < 21; i++) {
+        for (int i = 1; i < 5; i++) {
             recommendedApartments.addAll(processHaloOglasi(i));
         }
 

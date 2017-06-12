@@ -14,15 +14,15 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.springframework.util.StringUtils.isEmpty;
-import static scrapper.ApartmentSource.HALO_OGLASI;
 
 @Component
-public class ApartmentExtractor {
+public class HaloOglasiApartmentExtractor extends ApartmentExtractorTemplate {
 
-    private static final Logger log = LoggerFactory.getLogger(ApartmentExtractor.class);
+    private static final Logger log = LoggerFactory.getLogger(HaloOglasiApartmentExtractor.class);
     private static final String HALO_OGLASI_URL_PREFIX = "https://www.halooglasi.com";
     private static final String PAGE_PARAM = "&page={page}";
 
+    @Override
     public Document fetchApartmentsPage(int pageNum) {
         RestTemplate restTemplate = new RestTemplate();
 
@@ -33,42 +33,8 @@ public class ApartmentExtractor {
         return Jsoup.parse(page);
     }
 
-    public Apartment extractApartment(Element element) {
-        String priceStr = element.select("div.central-feature span i").html();
-
-        Double price = priceConverter(priceExtractor(priceStr));
-
-        if (price > 10000){
-            String url = urlExtractor(element);
-
-            String description = descriptionExtractor(element);
-
-            String address = addressExtractor(element);
-
-            Double area = areaExtractor(element);
-
-            Double rooms = roomExtractor(element);
-
-            String externalId = externalIdExtractor(element);
-
-            Apartment apartment = new Apartment();
-            apartment.setPrice(price);
-            apartment.setUrl(HALO_OGLASI_URL_PREFIX + url);
-            apartment.setDescription(description);
-            apartment.setAddress(address);
-            apartment.setArea(area);
-            apartment.setNoOfRooms(rooms);
-            apartment.setSource(HALO_OGLASI);
-            apartment.setExternalId(externalId);
-
-            return apartment;
-        }
-
-        return null;
-    }
-
     public List<Apartment> extractApartmentsElements(Document document) {
-        Elements apartments = document.select(getAppartmentSelector());
+        Elements apartments = document.select(".product-item.product-list-item");
 
         Iterator<Element> apartmentIterator = apartments.iterator();
 
@@ -90,34 +56,29 @@ public class ApartmentExtractor {
         return apartmentList;
     }
 
-    private static String getAppartmentSelector() {
-        return ".product-item.product-list-item";
+    @Override
+    protected String extractPriceString(Element element) {
+        return element.select("div.central-feature span i").html();
     }
 
-    private static String externalIdExtractor(Element element) {
-        return element.attr("data-id");
-    }
-
-    private static String priceExtractor(String rawPrice) {
+    @Override
+    protected Double extractPrice(String rawPrice) {
+        String priceString = "";
         int index = rawPrice.indexOf("nbsp");
 
         if (index > 0) {
-            return rawPrice.substring(0, index - 1) + ",00";
+            priceString = rawPrice.substring(0, index - 1) + ",00";
         }
 
-        return "";
-    }
-
-    private static Double priceConverter(String rawPrice) {
-        if (isEmpty(rawPrice)) {
+        if (isEmpty(priceString)) {
             return 0.0;
         }
 
         try {
-            return Double.parseDouble(rawPrice);
+            return Double.parseDouble(priceString);
         } catch (NumberFormatException e) {
             try {
-                String[] parts = rawPrice.split(",");
+                String[] parts = priceString.split(",");
                 return Double.parseDouble(parts[0]) * 1000 + Double.parseDouble(parts[1]);
             } catch (Exception ex) {
                 log.warn("Fatal error:", ex);
@@ -126,20 +87,24 @@ public class ApartmentExtractor {
         }
     }
 
-    private static String urlExtractor(Element appartmentElement) {
-        return appartmentElement.select("figure.pi-img-wrapper a").attr("href");
+    @Override
+    protected String extractUrl(Element element) {
+        return element.select("figure.pi-img-wrapper a").attr("href");
     }
 
-    private static String descriptionExtractor(Element appartmentElement) {
-        return appartmentElement.select(".text-description-list.ad-description.short-desc").html();
+    @Override
+    protected String extractDescription(Element element) {
+        return HALO_OGLASI_URL_PREFIX + element.select(".text-description-list.ad-description.short-desc").html();
     }
 
-    private static String addressExtractor(Element appartmentElement) {
-        return appartmentElement.select(".subtitle-places").html();
+    @Override
+    protected String extractAddress(Element element) {
+        return element.select(".subtitle-places").html();
     }
 
-    private static Double areaExtractor(Element appartmentElement) {
-        String areaRaw = appartmentElement.select(".ad-features li:eq(1) .value-wrapper").html();
+    @Override
+    protected Double extractArea(Element element) {
+        String areaRaw = element.select(".ad-features li:eq(1) .value-wrapper").html();
 
         String areaStr = areaRaw.substring(0, areaRaw.indexOf("nbsp") - 1);
         try {
@@ -158,8 +123,9 @@ public class ApartmentExtractor {
         }
     }
 
-    private static Double roomExtractor(Element appartmentElement) {
-        String roomRaw = appartmentElement.select(".ad-features li:eq(2) .value-wrapper").html();
+    @Override
+    protected Double extractRooms(Element element) {
+        String roomRaw = element.select(".ad-features li:eq(2) .value-wrapper").html();
 
         String roomStr = roomRaw.substring(0, roomRaw.indexOf("nbsp") - 1);
 
@@ -177,5 +143,15 @@ public class ApartmentExtractor {
             log.warn("Error extracting rooms:", ex);
             return 0.0;
         }
+    }
+
+    @Override
+    protected String extractExternalId(Element element) {
+        return element.attr("data-id");
+    }
+
+    @Override
+    protected ApartmentSource getSource() {
+        return ApartmentSource.HALO_OGLASI;
     }
 }

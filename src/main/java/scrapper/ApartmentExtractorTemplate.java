@@ -2,10 +2,17 @@ package scrapper;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public abstract class ApartmentExtractorTemplate {
+
+    private static final Logger log = LoggerFactory.getLogger(ApartmentExtractorTemplate.class);
 
     public final Apartment extractApartment(Element element) {
         //String priceStr = element.select("div.central-feature span i").html();
@@ -42,9 +49,32 @@ public abstract class ApartmentExtractorTemplate {
         return null;
     }
 
-    public abstract Document fetchApartmentsPage(int pageNum);
+    public final List<Apartment> extractApartmentsElements(Document document) {
+        Elements apartments = getApartmentsElements(document);
 
-    public abstract List<Apartment> extractApartmentsElements(Document document);
+        Iterator<Element> apartmentIterator = apartments.iterator();
+
+        List<Apartment> apartmentList = new ArrayList<>();
+
+        while (apartmentIterator.hasNext()) {
+            Element el = apartmentIterator.next();
+
+            Apartment apartment = extractApartment(el);
+
+            if (apartment != null) {
+                log.debug("Extracted apartment: [externalId: {}, url: {}]", apartment.getExternalId(), apartment.getUrl());
+                apartmentList.add(apartment);
+            }
+        }
+
+        log.info("Extracted {} apartments", apartmentList.size());
+
+        return apartmentList;
+    }
+
+    protected abstract Elements getApartmentsElements(Document document);
+
+    protected abstract Document fetchApartmentsPage(int pageNum);
 
     protected abstract String extractPriceString(Element element);
 

@@ -19,7 +19,10 @@ public class Processor {
     private static final Logger log = LoggerFactory.getLogger(Processor.class);
 
     @Autowired
-    private HaloOglasiApartmentExtractor extractor;
+    private HaloOglasiApartmentExtractor haloOglasiApartmentExtractor;
+
+    @Autowired
+    private NekretnineRSApartmentExtractor nekretnineRSApartmentExtractor;
 
     @Autowired
     private EmailSender emailSender;
@@ -31,10 +34,22 @@ public class Processor {
     private ApartmentRecommender recommender;
 
     public List<Apartment> processHaloOglasi(int page) {
-        Document document = extractor.fetchApartmentsPage(page);
+        Document document = haloOglasiApartmentExtractor.fetchApartmentsPage(page);
 
-        List<Apartment> apartments = extractor.extractApartmentsElements(document);
+        List<Apartment> apartments = haloOglasiApartmentExtractor.extractApartmentsElements(document);
 
+        return analizeApartments(apartments);
+    }
+
+    public List<Apartment> processNekretnineRS(int page) {
+        Document document = nekretnineRSApartmentExtractor.fetchApartmentsPage(page);
+
+        List<Apartment> apartments = nekretnineRSApartmentExtractor.extractApartmentsElements(document);
+
+        return analizeApartments(apartments);
+    }
+
+    private List<Apartment> analizeApartments(List<Apartment> apartments) {
         List<Apartment> storedApartments = apartmentStorage.storeApartments(apartments);
 
         List<Apartment> recommendedApartments = new ArrayList<>();
@@ -62,6 +77,7 @@ public class Processor {
 
         for (int i = 1; i < 5; i++) {
             recommendedApartments.addAll(processHaloOglasi(i));
+            recommendedApartments.addAll(processNekretnineRS(i));
         }
 
         try {

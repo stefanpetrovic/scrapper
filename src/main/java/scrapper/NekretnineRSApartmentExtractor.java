@@ -3,12 +3,17 @@ package scrapper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import static scrapper.ApartmentSource.NEKRETNINE_RS;
 
 @Component
 public class NekretnineRSApartmentExtractor extends ApartmentExtractorTemplate {
@@ -19,46 +24,65 @@ public class NekretnineRSApartmentExtractor extends ApartmentExtractorTemplate {
     public Document fetchApartmentsPage(int pageNum) {
         RestTemplate restTemplate = new RestTemplate();
 
-        String page = restTemplate.getForObject("http://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/cena/10000_100000/poslednja/7/samo-sa-slikom/lista/po_stranici/50/stranica/{stranica}", String.class, pageNum);
+        String page = restTemplate.getForObject("http://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/cena/10000_100000/poslednja/7/samo-sa-slikom/poredjaj-po/datumu_nanize/lista/po_stranici/20/stranica/{pageNum}", String.class, pageNum);
 
         log.info("Fetched page");
 
-        return Jsoup.parse(page);
+        Document doc =Jsoup.parse(page);
+
+        File f = new File("test.html");
+
+        try (FileWriter fileWriter = new FileWriter(f)){
+            fileWriter.write(doc.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return doc;
     }
 
     @Override
-    public List<Apartment> extractApartmentsElements(Document document) {
-        return null;
+    protected Elements getApartmentsElements(Document document) {
+        return document.select(".resultList");
     }
 
     @Override
     protected String extractPriceString(Element element) {
-        return null;
+        String rawPrice = element.select(".resultListPrice").html();
+
+        int index = rawPrice.indexOf("m2");
+        int index2 = rawPrice.indexOf("EUR");
+
+        return rawPrice.substring(index + 3, index2).trim();
     }
 
     @Override
     protected Double extractPrice(String rawPrice) {
-        return null;
+        return Double.parseDouble(rawPrice) * 1000;
     }
 
     @Override
     protected String extractUrl(Element element) {
-        return null;
+        return element.getElementsByClass("resultImg").get(0).attr("href");
     }
 
     @Override
     protected String extractDescription(Element element) {
-        return null;
+        return element.getElementsByClass("marginB_5").get(0).getElementsByTag("a").attr("title");
     }
 
     @Override
     protected String extractAddress(Element element) {
-        return null;
+        return element.getElementsByClass("resultData").get(0).html();
     }
 
     @Override
     protected Double extractArea(Element element) {
-        return null;
+        String rawArea = element.select(".resultListPrice").html();
+
+        int index = rawArea.indexOf("m2");
+
+        return Double.parseDouble(rawArea.substring(0, index));
     }
 
     @Override
@@ -68,11 +92,11 @@ public class NekretnineRSApartmentExtractor extends ApartmentExtractorTemplate {
 
     @Override
     protected String extractExternalId(Element element) {
-        return null;
+        return element.getElementsByClass("resultList").get(0).id();
     }
 
     @Override
     protected ApartmentSource getSource() {
-        return null;
+        return NEKRETNINE_RS;
     }
 }

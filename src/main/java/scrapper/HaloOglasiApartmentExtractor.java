@@ -9,10 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import static org.springframework.util.StringUtils.isEmpty;
 
 @Component
@@ -20,7 +16,6 @@ public class HaloOglasiApartmentExtractor extends ApartmentExtractorTemplate {
 
     private static final Logger log = LoggerFactory.getLogger(HaloOglasiApartmentExtractor.class);
     private static final String HALO_OGLASI_URL_PREFIX = "https://www.halooglasi.com";
-    private static final String PAGE_PARAM = "&page={page}";
 
     @Override
     public Document fetchApartmentsPage(int pageNum) {
@@ -32,6 +27,7 @@ public class HaloOglasiApartmentExtractor extends ApartmentExtractorTemplate {
 
         return Jsoup.parse(page);
     }
+/*
 
     public List<Apartment> extractApartmentsElements(Document document) {
         Elements apartments = document.select(".product-item.product-list-item");
@@ -54,6 +50,12 @@ public class HaloOglasiApartmentExtractor extends ApartmentExtractorTemplate {
         log.info("Extracted {} apartments", apartmentList.size());
 
         return apartmentList;
+    }
+*/
+
+    @Override
+    protected Elements getApartmentsElements(Document document) {
+        return document.select(".product-item.product-list-item");
     }
 
     @Override
@@ -89,12 +91,12 @@ public class HaloOglasiApartmentExtractor extends ApartmentExtractorTemplate {
 
     @Override
     protected String extractUrl(Element element) {
-        return element.select("figure.pi-img-wrapper a").attr("href");
+        return HALO_OGLASI_URL_PREFIX + element.select("figure.pi-img-wrapper a").attr("href");
     }
 
     @Override
     protected String extractDescription(Element element) {
-        return HALO_OGLASI_URL_PREFIX + element.select(".text-description-list.ad-description.short-desc").html();
+        return element.select(".text-description-list.ad-description.short-desc").html();
     }
 
     @Override

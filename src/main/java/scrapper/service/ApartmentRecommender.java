@@ -1,9 +1,11 @@
-package scrapper;
+package scrapper.service;
 
 import org.springframework.stereotype.Component;
+import scrapper.model.RecommendationResponse;
+import scrapper.model.Apartment;
 
 import static java.lang.String.format;
-import static scrapper.RecommenderResponseBuilder.responseWith;
+import static scrapper.model.RecommenderResponseBuilder.responseWith;
 
 @Component
 public class ApartmentRecommender {
@@ -46,6 +48,7 @@ public class ApartmentRecommender {
 
     private String[] excludedRegions() {
         return new String[] {
+                //regions
                 "Borča",
                 "Altina",
                 "Višnjička Banja",
@@ -64,7 +67,11 @@ public class ApartmentRecommender {
                 "Galenika",
                 "Obrenovac",
                 "Padinska skela",
-                "Medaković 3"
+                "Medaković 3",
+                "Mirijevo",
+
+                //streets
+                "16. oktobra"
         };
     }
 

@@ -1,4 +1,4 @@
-package scrapper;
+package scrapper.model;
 
 import org.springframework.data.annotation.Id;
 

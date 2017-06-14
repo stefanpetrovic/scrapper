@@ -1,4 +1,4 @@
-package scrapper;
+package scrapper.email;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+import scrapper.model.Apartment;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;

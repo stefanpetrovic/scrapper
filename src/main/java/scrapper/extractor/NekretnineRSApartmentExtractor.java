@@ -1,4 +1,4 @@
-package scrapper;
+package scrapper.extractor;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -8,12 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import scrapper.model.ApartmentSource;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import static scrapper.ApartmentSource.NEKRETNINE_RS;
+import static scrapper.model.ApartmentSource.NEKRETNINE_RS;
 
 @Component
 public class NekretnineRSApartmentExtractor extends ApartmentExtractorTemplate {

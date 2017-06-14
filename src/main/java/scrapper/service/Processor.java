@@ -1,4 +1,4 @@
-package scrapper;
+package scrapper.service;
 
 import freemarker.template.TemplateException;
 import org.jsoup.nodes.Document;
@@ -7,6 +7,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import scrapper.email.EmailSender;
+import scrapper.model.RecommendationResponse;
+import scrapper.extractor.HaloOglasiApartmentExtractor;
+import scrapper.extractor.NekretnineRSApartmentExtractor;
+import scrapper.model.Apartment;
 
 import javax.mail.MessagingException;
 import java.io.IOException;

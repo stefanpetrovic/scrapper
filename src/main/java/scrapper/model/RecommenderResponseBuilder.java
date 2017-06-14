@@ -1,4 +1,4 @@
-package scrapper;
+package scrapper.model;
 
 public class RecommenderResponseBuilder {
 

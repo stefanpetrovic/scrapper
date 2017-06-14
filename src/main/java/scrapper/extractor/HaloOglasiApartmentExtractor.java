@@ -1,4 +1,4 @@
-package scrapper;
+package scrapper.extractor;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import scrapper.model.ApartmentSource;
 
 import static org.springframework.util.StringUtils.isEmpty;
 

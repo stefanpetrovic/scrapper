@@ -5,13 +5,12 @@ import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import scrapper.email.EmailSender;
-import scrapper.model.RecommendationResponse;
 import scrapper.extractor.HaloOglasiApartmentExtractor;
 import scrapper.extractor.NekretnineRSApartmentExtractor;
 import scrapper.model.Apartment;
+import scrapper.model.RecommendationResponse;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
@@ -76,7 +75,7 @@ public class Processor {
         return recommendedApartments;
     }
 
-    @Scheduled(fixedDelay = 100000)
+    //@Scheduled(fixedDelay = 100000)
     public void process() {
         List<Apartment> recommendedApartments = new ArrayList<>();
 

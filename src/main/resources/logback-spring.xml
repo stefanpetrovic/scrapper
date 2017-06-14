@@ -2,7 +2,7 @@
     <springProfile name="default, local">
         <jmxConfigurator/>
         <include resource="org/springframework/boot/logging/logback/base.xml"/>
-        <logger name="com.tms" level="INFO"/>
+        <logger name="com.tms" level="DEBUG"/>
     </springProfile>
     <!--<springProfile name="dev, prod">
         <jmxConfigurator/>

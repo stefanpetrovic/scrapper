@@ -6,7 +6,12 @@ body {
     height: 60px;
     background-color: #222;
 }
+
 .width-200 {
     width: 200px;
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }
 

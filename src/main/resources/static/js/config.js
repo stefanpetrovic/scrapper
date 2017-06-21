@@ -4,8 +4,8 @@ angular.module('scrapperApp').config(['$routeProvider', function ($routeProvider
         .when('/', {
             templateUrl: 'views/home.html'
         })
-        .when('/management', {
-            templateUrl: 'views/management.html'
+        .when('/forbidden-address', {
+            templateUrl: 'views/forbidden-address.html'
         });
 
 }]);

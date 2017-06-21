@@ -1,0 +1,29 @@
+<div ng-controller="ForbiddenAddressController">
+
+    <div class="row">
+        <form role="form">
+            <div class="form-group">
+                <div class="col-sm-5">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="newAddress" placeholder="New address" ng-model="newAddress">
+                        <div class="input-group-addon"><i ng-click="addAddress();" class="fa fa-floppy-o" aria-hidden="true"></i></div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <br>
+
+    <div id="addressList" class="row" ng-repeat="address in forbiddenAddresses">
+        <div class="form-group">
+            <div>
+                <div class="input-group col-sm-5"  ng-click="enableEdit(address.id)">
+                    <input type="text" class="form-control" id="{{address.id}}" placeholder="Address" ng-model="address.address" ng-enabled="isVisibleSave(id)" disabled>
+                    <div class="input-group-addon cursor-pointer" ng-show="isVisibleSave(address.id)"><i ng-click="editAddress(address);" class="fa fa-floppy-o" aria-hidden="true"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

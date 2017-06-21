@@ -8,6 +8,8 @@ public interface ForbiddenAddressService {
 
     ForbiddenAddress saveNewForbiddenAddress(String address);
 
+    ForbiddenAddress updateForbiddenAddress(ForbiddenAddress forbiddenAddress);
+
     List<ForbiddenAddress> getAllForbiddenAddresses();
 
     void deleteForbiddenAddress(String forbiddenAddressId);

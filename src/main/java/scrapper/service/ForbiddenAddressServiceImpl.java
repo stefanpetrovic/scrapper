@@ -22,6 +22,18 @@ public class ForbiddenAddressServiceImpl implements ForbiddenAddressService {
     }
 
     @Override
+    public ForbiddenAddress updateForbiddenAddress(ForbiddenAddress forbiddenAddress) {
+        ForbiddenAddress addressToUpdate = repository.findOne(forbiddenAddress.getId());
+
+        if (addressToUpdate == null) {
+            throw new ValidationException("Unable to find address to update");
+        }
+
+        addressToUpdate.setAddress(forbiddenAddress.getAddress());
+        return repository.save(addressToUpdate);
+    }
+
+    @Override
     public List<ForbiddenAddress> getAllForbiddenAddresses() {
         return repository.findAll();
     }

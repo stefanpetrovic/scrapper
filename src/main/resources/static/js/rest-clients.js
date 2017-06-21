@@ -1,5 +1,11 @@
 scrapperApp.factory("ForbiddenAddressREST", function($resource) {
     return $resource(
-        "forbiddenAddresses/:id"
+        "forbiddenAddresses/:id",
+        null,
+        {
+            'put': {
+                method: 'PUT'
+            }
+        }
     );
 });

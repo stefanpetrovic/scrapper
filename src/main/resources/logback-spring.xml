@@ -3,7 +3,7 @@
         <jmxConfigurator/>
         <include resource="org/springframework/boot/logging/logback/base.xml"/>
         <logger name="com.tms" level="DEBUG"/>
-        <logger name="org.springframework" level="DEBUG"/>
+        <!--<logger name="org.springframework" level="DEBUG"/>-->
     </springProfile>
     <!--<springProfile name="dev, prod">
         <jmxConfigurator/>

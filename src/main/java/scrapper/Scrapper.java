@@ -3,13 +3,8 @@ package scrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.EnableScheduling;
-
-import java.util.Properties;
 
 @SpringBootApplication
 @EnableScheduling
@@ -21,7 +16,7 @@ public class Scrapper {
     public static void main(String[] args) {
         SpringApplication.run(Scrapper.class, args);
     }
-
+/*
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
@@ -38,6 +33,6 @@ public class Scrapper {
         props.put("mail.debug", "true");
 
         return mailSender;
-    }
+    }*/
 
 }

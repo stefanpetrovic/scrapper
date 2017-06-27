@@ -5,14 +5,14 @@ import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import scrapper.email.EmailSender;
+import scrapper.email.SendgridMailSender;
 import scrapper.extractor.HaloOglasiApartmentExtractor;
 import scrapper.extractor.NekretnineRSApartmentExtractor;
 import scrapper.model.Apartment;
 import scrapper.model.RecommendationResponse;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class Processor {
     private NekretnineRSApartmentExtractor nekretnineRSApartmentExtractor;
 
     @Autowired
-    private EmailSender emailSender;
+    private SendgridMailSender emailSender;
 
     @Autowired
     private ApartmentStorage apartmentStorage;
@@ -75,11 +75,11 @@ public class Processor {
         return recommendedApartments;
     }
 
-    //@Scheduled(fixedDelay = 100000)
+    @Scheduled(fixedDelay = 100000)
     public void process() {
         List<Apartment> recommendedApartments = new ArrayList<>();
 
-        for (int i = 1; i < 5; i++) {
+        for (int i = 1; i < 2; i++) {
             recommendedApartments.addAll(processHaloOglasi(i));
             recommendedApartments.addAll(processNekretnineRS(i));
         }
@@ -89,8 +89,6 @@ public class Processor {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (TemplateException e) {
-            e.printStackTrace();
-        } catch (MessagingException e) {
             e.printStackTrace();
         }
     }

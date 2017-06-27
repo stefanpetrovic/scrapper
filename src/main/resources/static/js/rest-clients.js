@@ -9,3 +9,9 @@ scrapperApp.factory("ForbiddenAddressREST", function($resource) {
         }
     );
 });
+
+scrapperApp.factory("ProcessorREST", function($resource) {
+   return $resource(
+       "processor"
+   );
+});

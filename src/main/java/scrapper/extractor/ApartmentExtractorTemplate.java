@@ -5,8 +5,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import scrapper.model.ApartmentSource;
 import scrapper.model.Apartment;
+import scrapper.model.ApartmentSource;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,12 +17,11 @@ public abstract class ApartmentExtractorTemplate {
     private static final Logger log = LoggerFactory.getLogger(ApartmentExtractorTemplate.class);
 
     public final Apartment extractApartment(Element element) {
-        //String priceStr = element.select("div.central-feature span i").html();
         String priceStr = extractPriceString(element);
 
         Double price = extractPrice(priceStr);
 
-        if (price > 10000){
+        if (price > 10000) {
             String url = extractUrl(element);
 
             String description = extractDescription(element);

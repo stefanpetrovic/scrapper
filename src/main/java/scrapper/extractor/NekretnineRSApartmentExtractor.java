@@ -29,11 +29,11 @@ public class NekretnineRSApartmentExtractor extends ApartmentExtractorTemplate {
 
         log.info("Fetched page");
 
-        Document doc =Jsoup.parse(page);
+        Document doc = Jsoup.parse(page);
 
         File f = new File("test.html");
 
-        try (FileWriter fileWriter = new FileWriter(f)){
+        try (FileWriter fileWriter = new FileWriter(f)) {
             fileWriter.write(doc.toString());
         } catch (IOException e) {
             e.printStackTrace();

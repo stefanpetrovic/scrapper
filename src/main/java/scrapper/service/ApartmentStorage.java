@@ -26,7 +26,7 @@ public class ApartmentStorage {
             return storedApartments;
         }
 
-        for(Apartment apartment : apartments) {
+        for (Apartment apartment : apartments) {
             Apartment apartmentToStore =
                     apartmentRepository.findByExternalIdAndSource(apartment.getExternalId(), apartment.getSource().name());
 

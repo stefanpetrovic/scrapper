@@ -6,6 +6,4 @@ import scrapper.model.ForbiddenAddress;
 
 @Repository
 public interface ForbiddenAddressRepository extends MongoRepository<ForbiddenAddress, String> {
-
-
 }

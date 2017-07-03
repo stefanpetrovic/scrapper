@@ -28,31 +28,6 @@ public class HaloOglasiApartmentExtractor extends ApartmentExtractorTemplate {
 
         return Jsoup.parse(page);
     }
-/*
-
-    public List<Apartment> extractApartmentsElements(Document document) {
-        Elements apartments = document.select(".product-item.product-list-item");
-
-        Iterator<Element> apartmentIterator = apartments.iterator();
-
-        List<Apartment> apartmentList = new ArrayList<>();
-
-        while (apartmentIterator.hasNext()) {
-            Element el = apartmentIterator.next();
-
-            Apartment apartment = extractApartment(el);
-
-            if (apartment != null) {
-                log.debug("Extracted apartment: [externalId: {}, url: {}]", apartment.getExternalId(), apartment.getUrl());
-                apartmentList.add(apartment);
-            }
-        }
-
-        log.info("Extracted {} apartments", apartmentList.size());
-
-        return apartmentList;
-    }
-*/
 
     @Override
     protected Elements getApartmentsElements(Document document) {

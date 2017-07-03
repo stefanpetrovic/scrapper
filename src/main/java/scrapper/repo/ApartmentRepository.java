@@ -7,6 +7,5 @@ import scrapper.model.Apartment;
 @Repository
 public interface ApartmentRepository extends MongoRepository<Apartment, String> {
 
-
     Apartment findByExternalIdAndSource(String externalId, String source);
 }

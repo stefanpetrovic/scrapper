@@ -1,14 +1,23 @@
 package scrapper.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import scrapper.model.RecommendationResponse;
 import scrapper.model.Apartment;
+import scrapper.model.ForbiddenAddress;
+import scrapper.model.RecommendationResponse;
+import scrapper.repo.ForbiddenAddressRepository;
+
+import java.util.List;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
 import static scrapper.model.RecommenderResponseBuilder.responseWith;
 
 @Component
 public class ApartmentRecommender {
+
+    @Autowired
+    private ForbiddenAddressRepository repository;
 
     public RecommendationResponse analyzeApartment(Apartment apartment) {
         Double price = apartment.getPrice();
@@ -46,33 +55,10 @@ public class ApartmentRecommender {
         return responseWith().recommended(true).build();
     }
 
-    private String[] excludedRegions() {
-        return new String[] {
-                //regions
-                "Borča",
-                "Altina",
-                "Višnjička Banja",
-                "Rakovica",
-                "Opština Grocka",
-                "Batajnica",
-                "Kumodraž",
-                "Ledine",
-                "Mirijevski Bulevar",
-                "Bežanija",
-                "Dr Ivana Ribara",
-                "Cerak",
-                "Mihaila Bulgakova",
-                "Zemun polje",
-                "Krnjača",
-                "Galenika",
-                "Obrenovac",
-                "Padinska skela",
-                "Medaković 3",
-                "Mirijevo",
+    private List<String> excludedRegions() {
+        List<ForbiddenAddress> forbiddenAddresses = repository.findAll();
 
-                //streets
-                "16. oktobra"
-        };
+        return forbiddenAddresses.stream().map(ForbiddenAddress::getAddress).collect(toList());
     }
 
 }

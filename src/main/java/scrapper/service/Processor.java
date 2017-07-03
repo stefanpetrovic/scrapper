@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import scrapper.email.EmailGenerator;
 import scrapper.email.SendgridMailSender;
 import scrapper.extractor.HaloOglasiApartmentExtractor;
 import scrapper.extractor.NekretnineRSApartmentExtractor;
@@ -30,6 +31,9 @@ public class Processor {
 
     @Autowired
     private SendgridMailSender emailSender;
+
+    @Autowired
+    private EmailGenerator emailGenerator;
 
     @Autowired
     private ApartmentStorage apartmentStorage;
@@ -85,8 +89,16 @@ public class Processor {
             recommendedApartments.addAll(processNekretnineRS(i));
         }
 
+        if (recommendedApartments.isEmpty()) {
+            //finish process if no apartments are to be sent via email
+            log.info("No apartments to recommend, exiting process.");
+            return;
+        }
+
         try {
-            emailSender.sendEmail(recommendedApartments);
+            String emailContent = emailGenerator.generateEmailContent(recommendedApartments);
+
+            emailSender.sendEmail("petrovicstefan91@gmail.com", "petrovicstefan91@gmail.com", "Apartments", emailContent);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (TemplateException e) {

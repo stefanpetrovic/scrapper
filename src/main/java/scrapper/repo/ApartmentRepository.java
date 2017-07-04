@@ -14,7 +14,9 @@ public interface ApartmentRepository extends MongoRepository<Apartment, String> 
 
     Apartment findByExternalIdAndSource(String externalId, String source);
 
-    Page<Apartment> findByRecommendedTrue(Pageable pageable);
+    Page<Apartment> findByRecommendedTrueOrderByCreatedDateDesc(Pageable pageable);
+
+    Page<Apartment> findAllByOrderByCreatedDateDesc(Pageable pageable);
 
     List<Apartment> findByToBeSavedFalseAndCreatedDateBefore(Date date);
 }

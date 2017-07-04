@@ -3,6 +3,7 @@
     <div class="checkbox">
         <label>
             <input type="checkbox" ng-model="filters.showOnlyRecommended" id="only-recommended" ng-click="filter()">
+            Display only recommended
         </label>
     </div>
 
@@ -16,17 +17,23 @@
             <th>Area</th>
             <th>No of rooms</th>
             <th>Recommended</th>
+            <th>Save this apartment?</th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="apartment in apartments">
             <td>{{ apartment.price }}</td>
-            <td>{{ apartment.url }}</td>
+            <td><a href="{{ apartment.url }}" target="_blank">{{ apartment.url }}</a></td>
             <td>{{ apartment.description }}</td>
             <td>{{ apartment.address }}</td>
             <td>{{ apartment.area }}</td>
             <td>{{ apartment.noOfRooms }}</td>
             <td>{{ apartment.recommended ? 'YES' : 'NO' }}</td>
+            <td>
+                <label>
+                    <input type="checkbox" ng-model="apartment.toBeSaved" ng-click="updateApartment(apartment);">
+                </label>
+            </td>
         </tr>
         </tbody>
     </table>

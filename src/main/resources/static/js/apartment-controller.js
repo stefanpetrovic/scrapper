@@ -18,6 +18,19 @@ scrapperApp.controller('ApartmentController', function ApartmentController($scop
         fetchPage();
     };
 
+    $scope.updateApartment = function(apartment) {
+        ApartmentREST.put(
+            {},
+            apartment,
+            function (success) {
+
+            },
+            function(error) {
+                console.log(error);
+            }
+        );
+    };
+
     function fetchPage() {
         ApartmentREST.get(
             {

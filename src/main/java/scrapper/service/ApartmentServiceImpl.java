@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import scrapper.model.Apartment;
 import scrapper.repo.ApartmentRepository;
 
+import javax.validation.ValidationException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -26,21 +27,39 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Override
     public Page<Apartment> findAllApartments(boolean onlyRecommended, Pageable pageable) {
         if (onlyRecommended) {
-            return repository.findByRecommendedTrue(pageable);
+            return repository.findByRecommendedTrueOrderByCreatedDateDesc(pageable);
         }
 
-        return repository.findAll(pageable);
+        return repository.findAllByOrderByCreatedDateDesc(pageable);
     }
 
     @Scheduled(fixedDelay = 1000*60*60*24)
     @Override
     public void cleanUpStaleRecords() {
+        log.info("Started cleaning up stale records.");
         //current date minus 30 days
         Instant date30DaysAgo = Instant.now().minus(30, ChronoUnit.DAYS);
         List<Apartment> apartmentsToDelete = repository.findByToBeSavedFalseAndCreatedDateBefore(new Date(date30DaysAgo.getEpochSecond()));
 
-        repository.delete(apartmentsToDelete);
+        int numberOfRecordsToRemove = apartmentsToDelete.size();
+        if (numberOfRecordsToRemove > 0) {
+            repository.delete(apartmentsToDelete);
+            log.info("Removed {} records.", numberOfRecordsToRemove);
+        } else {
+            log.info("No records found for clean up.");
+        }
+    }
 
-        log.info("Removed {} stale apartments.", apartmentsToDelete.size());
+    @Override
+    public Apartment updateApartment(Apartment apartment) {
+        Apartment apartmentToUpdate = repository.findOne(apartment.getId());
+
+        if (apartmentToUpdate == null) {
+            throw new ValidationException("Apartment not found for updating.");
+        }
+
+        apartmentToUpdate.setToBeSaved(apartment.isToBeSaved());
+
+        return repository.save(apartmentToUpdate);
     }
 }

@@ -19,6 +19,12 @@ scrapperApp.factory("ProcessorREST", function($resource) {
 
 scrapperApp.factory("ApartmentREST", function($resource) {
     return $resource(
-        "apartments"
+        "apartments",
+        null,
+        {
+            'put': {
+                method: 'PUT'
+            }
+        }
     );
 });

@@ -9,4 +9,6 @@ public interface ApartmentService {
     Page<Apartment> findAllApartments(boolean onlyRecommended, Pageable pageable);
 
     void cleanUpStaleRecords();
+
+    Apartment updateApartment(Apartment apartment);
 }

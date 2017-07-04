@@ -6,6 +6,9 @@ angular.module('scrapperApp').config(['$routeProvider', function ($routeProvider
         })
         .when('/forbidden-address', {
             templateUrl: 'views/forbidden-address.html'
+        })
+        .when('/recommended-apartments', {
+            templateUrl: 'views/recommended-apartments.html'
         });
 
 }]);

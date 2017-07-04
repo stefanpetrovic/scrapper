@@ -15,3 +15,10 @@ scrapperApp.factory("ProcessorREST", function($resource) {
        "processor"
    );
 });
+
+
+scrapperApp.factory("ApartmentREST", function($resource) {
+    return $resource(
+        "apartments"
+    );
+});

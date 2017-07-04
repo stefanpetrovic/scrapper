@@ -1,6 +1,7 @@
 var scrapperApp = angular.module('scrapperApp', [
     'ngRoute',
     'ngResource',
-    'blockUI'
+    'blockUI',
+    'ui.bootstrap'
 ]);
 

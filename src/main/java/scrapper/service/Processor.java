@@ -58,11 +58,9 @@ public class Processor {
     }
 
     private List<Apartment> analizeApartments(List<Apartment> apartments) {
-        List<Apartment> storedApartments = apartmentStorage.storeApartments(apartments);
-
         List<Apartment> recommendedApartments = new ArrayList<>();
 
-        for (Apartment a : storedApartments) {
+        for (Apartment a : apartments) {
             RecommendationResponse response = recommender.analyzeApartment(a);
 
             boolean isRecommended = response.isRecommended();
@@ -76,10 +74,11 @@ public class Processor {
             }
         }
 
+        apartmentStorage.storeApartments(apartments);
+
         return recommendedApartments;
     }
 
-    /*@Scheduled(fixedDelay = 100000)*/
     @Async
     public void process() {
         List<Apartment> recommendedApartments = new ArrayList<>();

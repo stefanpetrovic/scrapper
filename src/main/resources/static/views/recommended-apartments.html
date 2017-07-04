@@ -1,0 +1,34 @@
+<div ng-controller="ApartmentController">
+
+    <div class="checkbox">
+        <label>
+            <input type="checkbox" ng-model="filters.showOnlyRecommended" id="only-recommended" ng-click="filter()">
+        </label>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Price</th>
+            <th>URL</th>
+            <th>Description</th>
+            <th>Address</th>
+            <th>Area</th>
+            <th>No of rooms</th>
+            <th>Recommended</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="apartment in apartments">
+            <td>{{ apartment.price }}</td>
+            <td>{{ apartment.url }}</td>
+            <td>{{ apartment.description }}</td>
+            <td>{{ apartment.address }}</td>
+            <td>{{ apartment.area }}</td>
+            <td>{{ apartment.noOfRooms }}</td>
+            <td>{{ apartment.recommended ? 'YES' : 'NO' }}</td>
+        </tr>
+        </tbody>
+    </table>
+    <ul uib-pagination total-items="pagination.totalItems" ng-model="pagination.pageNum" max-size="5" class="pagination-sm" boundary-link-numbers="true" ng-click="pageChanged()"></ul>
+</div>

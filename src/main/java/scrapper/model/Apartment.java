@@ -1,7 +1,12 @@
 package scrapper.model;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
+@Document
 public class Apartment {
 
     @Id
@@ -16,6 +21,9 @@ public class Apartment {
     private String externalId;
     private boolean recommended;
     private String message;
+    private boolean toBeSaved;
+    @CreatedDate
+    private Date createdDate;
 
     public String getId() {
         return id;
@@ -103,5 +111,21 @@ public class Apartment {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public boolean isToBeSaved() {
+        return toBeSaved;
+    }
+
+    public void setToBeSaved(boolean toBeSaved) {
+        this.toBeSaved = toBeSaved;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
     }
 }

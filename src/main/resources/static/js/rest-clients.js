@@ -28,3 +28,9 @@ scrapperApp.factory("ApartmentREST", function($resource) {
         }
     );
 });
+
+scrapperApp.factory("KeepAliveREST", function ($resource) {
+    return $resource(
+        "keepAlive"
+    );
+});

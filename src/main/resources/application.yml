@@ -1,3 +1,8 @@
+server:
+  session:
+    # 8 hours timeout
+    timeout: 28800
+
 security:
   user:
     name: st

@@ -41,7 +41,6 @@ scrapperApp.controller('ApartmentController', function ApartmentController($scop
             function(success) {
                 $scope.apartments = success.content;
                 $scope.pagination.totalItems = success.totalElements;
-                console.log(success);
             },
             function(error) {
                 console.log(error);

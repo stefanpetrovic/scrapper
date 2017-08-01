@@ -75,9 +75,11 @@ public class Processor {
             }
         }
 
-        apartmentStorage.storeApartments(apartments);
+        //send only newly stored
+        return apartmentStorage.storeApartments(apartments);
 
-        return recommendedApartments;
+        //return all
+        //return recommendedApartments;
     }
 
     @Async

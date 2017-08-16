@@ -47,8 +47,8 @@ public class ApartmentRecommender {
 
         Double pricePerSquareMeter = price / area;
 
-        if (pricePerSquareMeter > 1200) {
-            String message = format("Price per square meter is too high: [price: %s, allowed: 1200", pricePerSquareMeter);
+        if (pricePerSquareMeter > 1600) {
+            String message = format("Price per square meter is too high: [price: %s, allowed: 1600", pricePerSquareMeter);
             return responseWith().recommended(false).message(message).build();
         }
 

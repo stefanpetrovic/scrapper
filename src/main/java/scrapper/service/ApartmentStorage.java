@@ -19,6 +19,7 @@ public class ApartmentStorage {
     @Autowired
     private ApartmentRepository apartmentRepository;
 
+    //return only newly stored
     @Transactional
     public List<Apartment> storeApartments(List<Apartment> apartments) {
         List<Apartment> storedApartments = new ArrayList<>();

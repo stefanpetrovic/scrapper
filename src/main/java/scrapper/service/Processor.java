@@ -18,6 +18,7 @@ import scrapper.model.RecommendationResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class Processor {
@@ -76,8 +77,9 @@ public class Processor {
         }
 
         //send only newly stored
-        return apartmentStorage.storeApartments(apartments);
+        List<Apartment> newlyStored = apartmentStorage.storeApartments(apartments);
 
+        return newlyStored.stream().filter(Apartment::isRecommended).collect(Collectors.toList());
         //return all
         //return recommendedApartments;
     }

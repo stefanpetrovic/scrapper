@@ -33,6 +33,11 @@ public class ApartmentServiceImpl implements ApartmentService {
         return repository.findAllByOrderByCreatedDateDesc(pageable);
     }
 
+    @Override
+    public List<Apartment> findAllApartments() {
+        return repository.findAll();
+    }
+
     @Scheduled(fixedDelay = 1000*60*60*24)
     @Override
     public void cleanUpStaleRecords() {

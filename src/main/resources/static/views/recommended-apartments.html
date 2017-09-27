@@ -7,6 +7,13 @@
         </label>
     </div>
 
+    <div class="form-group">
+        <label for="pageSize">Page size:</label>
+        <select class="form-control" ng-model="pagination.pageSize" id="pageSize" ng-change="pageSizeChanged(pagination.pageSize)" ng-options="pageSize as pageSize for pageSize in pageSizes">
+
+        </select>
+    </div>
+
     <table class="table table-hover">
         <thead>
         <tr>
@@ -21,7 +28,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="apartment in apartments">
+        <tr ng-repeat="apartment in pagedApartments">
             <td>{{ apartment.price }}</td>
             <td><a href="{{ apartment.url }}" target="_blank">{{ apartment.url }}</a></td>
             <td>{{ apartment.description }}</td>

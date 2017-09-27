@@ -1,17 +1,28 @@
 scrapperApp.controller('ApartmentController', function ApartmentController($scope, ApartmentREST) {
 
+    $scope.pageSizes = [
+        10, 20, 50, 100
+    ];
+
     $scope.apartments = [];
+    $scope.pagedApartments = [];
     $scope.filters = {
         showOnlyRecommended: false
     };
     $scope.pagination = {
         pageNum: 1,
-        pageSize: 50,
+        pageSize: $scope.pageSizes[0],
         totalItems: 0
     };
 
+    $scope.orderByItem = 'createdDate';
+
     $scope.pageChanged = function() {
         fetchPage();
+    };
+
+    $scope.pageSizeChanged = function() {
+        pageApartments();
     };
 
     $scope.filter = function() {
@@ -32,15 +43,14 @@ scrapperApp.controller('ApartmentController', function ApartmentController($scop
     };
 
     function fetchPage() {
-        ApartmentREST.get(
+        ApartmentREST.query(
             {
-                onlyRecommended: $scope.filters.showOnlyRecommended,
-                pageNum: $scope.pagination.pageNum - 1,
-                pageSize: $scope.pagination.pageSize
             },
-            function(success) {
-                $scope.apartments = success.content;
-                $scope.pagination.totalItems = success.totalElements;
+            function(apartments) {
+                $scope.apartments = apartments;
+                $scope.pagination.totalItems = apartments.size;
+
+                pageApartments();
             },
             function(error) {
                 console.log(error);
@@ -48,6 +58,9 @@ scrapperApp.controller('ApartmentController', function ApartmentController($scop
         );
     }
 
+    function pageApartments() {
+        $scope.pagedApartments = $scope.apartments.slice(($scope.pagination.pageNum - 1) * $scope.pagination.pageSize, $scope.pagination.pageSize);
+    }
     function init() {
         fetchPage();
     }

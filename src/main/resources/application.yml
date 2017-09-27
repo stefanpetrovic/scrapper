@@ -13,3 +13,5 @@ spring:
   data:
     mongodb:
       uri: mongodb://heroku_0087srhz:1svf4rlfhg93pj26348m6hn1pn@ds057816.mlab.com:57816/heroku_0087srhz
+
+numberOfPagesToProcess: 100

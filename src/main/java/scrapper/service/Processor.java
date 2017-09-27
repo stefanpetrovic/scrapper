@@ -5,6 +5,7 @@ import org.jsoup.nodes.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,9 @@ import java.util.stream.Collectors;
 public class Processor {
 
     private static final Logger log = LoggerFactory.getLogger(Processor.class);
+
+    @Value("${numberOfPagesToProcess}")
+    private int numberOfPagesToProcess;
 
     @Autowired
     private HaloOglasiApartmentExtractor haloOglasiApartmentExtractor;
@@ -72,7 +76,7 @@ public class Processor {
             if (isRecommended) {
                 recommendedApartments.add(a);
             } else {
-                log.info("Apartment not recommended: [url: {}, reason: {}]", a.getUrl(), response.getMessage());
+                log.debug("Apartment not recommended: [url: {}, reason: {}]", a.getUrl(), response.getMessage());
             }
         }
 
@@ -88,7 +92,7 @@ public class Processor {
     public void process() {
         List<Apartment> recommendedApartments = new ArrayList<>();
 
-        for (int i = 1; i < 2; i++) {
+        for (int i = 1; i < numberOfPagesToProcess; i++) {
             recommendedApartments.addAll(processHaloOglasi(i));
             recommendedApartments.addAll(processNekretnineRS(i));
         }

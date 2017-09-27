@@ -24,7 +24,7 @@ public class HaloOglasiApartmentExtractor extends ApartmentExtractorTemplate {
 
         String page = restTemplate.getForObject("https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd?cena_d_to=60000&cena_d_unit=4&kvadratura_d_from=60&kvadratura_d_unit=1&page={page}", String.class, pageNum);
 
-        log.info("Fetched page");
+        log.debug("Fetched Hallo oglasi page");
 
         return Jsoup.parse(page);
     }

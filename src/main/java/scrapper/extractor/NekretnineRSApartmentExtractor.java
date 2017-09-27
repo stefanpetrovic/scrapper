@@ -25,9 +25,9 @@ public class NekretnineRSApartmentExtractor extends ApartmentExtractorTemplate {
     public Document fetchApartmentsPage(int pageNum) {
         RestTemplate restTemplate = new RestTemplate();
 
-        String page = restTemplate.getForObject("http://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/cena/10000_100000/poslednja/7/samo-sa-slikom/poredjaj-po/datumu_nanize/lista/po_stranici/20/stranica/{pageNum}", String.class, pageNum);
+        String page = restTemplate.getForObject("https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/cena/10000_100000/poslednja/7/samo-sa-slikom/poredjaj-po/datumu_nanize/lista/po_stranici/20/stranica/{pageNum}", String.class, pageNum);
 
-        log.info("Fetched page");
+        log.debug("Fetched Nekretnine.rs page");
 
         Document doc = Jsoup.parse(page);
 

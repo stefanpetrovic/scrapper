@@ -6,6 +6,10 @@
 
     <form class="form-inline">
         <div class="form-group">
+            <label for="sort">Sort:</label>
+            <select class="form-control" ng-model="filters.selectedSort" id="sort" ng-change="filter()" ng-options="sort as sort for sort in sortItems"></select>
+        </div>
+        <div class="form-group">
             <label for="pageSize">Page size:</label>
             <select class="form-control" ng-model="pagination.pageSize" id="pageSize" ng-change="pageApartments()" ng-options="pageSize as pageSize for pageSize in pageSizes"></select>
         </div>
@@ -48,6 +52,7 @@
             <th>Area</th>
             <th>No of rooms</th>
             <th>Recommended</th>
+            <th>Created date</th>
             <th>Save this apartment?</th>
         </tr>
         </thead>
@@ -60,6 +65,7 @@
             <td>{{ apartment.area }}</td>
             <td>{{ apartment.noOfRooms }}</td>
             <td>{{ apartment.recommended ? 'YES' : 'NO' }}</td>
+            <td>{{ apartment.createdDate | date: 'dd-MM-yyyy' }}</td>
             <td>
                 <label>
                     <input type="checkbox" ng-model="apartment.toBeSaved" ng-click="updateApartment(apartment);">

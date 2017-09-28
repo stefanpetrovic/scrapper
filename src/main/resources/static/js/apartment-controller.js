@@ -4,6 +4,10 @@ scrapperApp.controller('ApartmentController', function ApartmentController($scop
         10, 20, 50, 100
     ];
 
+    $scope.sortItems = [
+        '-price', '-area', '-noOfRooms', '-createdDate'
+    ];
+
     $scope.apartmentSizes = [
         10, 20, 30, 40, 50, 60, 70, 80, 90, 100
     ];
@@ -23,7 +27,8 @@ scrapperApp.controller('ApartmentController', function ApartmentController($scop
         sizeLessThan: $scope.apartmentSizes[9],
         priceGreaterThan: $scope.prices[0],
         priceLessThan: $scope.prices[16],
-        tags: []
+        tags: [],
+        selectedSort: $scope.sortItems[3]
     };
 
     $scope.pagination = {
@@ -35,7 +40,7 @@ scrapperApp.controller('ApartmentController', function ApartmentController($scop
     $scope.orderByItem = 'createdDate';
 
     $scope.filter = function() {
-        $scope.filteredApartments = filterByTags(filterByRecommended(filterByApartmentSize(filterByPrice($scope.apartments))));
+        $scope.filteredApartments = sort(filterByTags(filterByRecommended(filterByApartmentSize(filterByPrice($scope.apartments)))));
         $scope.pagination.totalItems = $scope.filteredApartments.length;
         $scope.pageApartments();
     };
@@ -96,6 +101,10 @@ scrapperApp.controller('ApartmentController', function ApartmentController($scop
         });
 
         return result;
+    }
+
+    function sort(apartments) {
+        return $filter('orderBy')(apartments, $scope.filters.selectedSort);
     }
 
     $scope.updateApartment = function(apartment) {

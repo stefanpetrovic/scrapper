@@ -36,7 +36,7 @@ public class ApartmentStorage {
                 log.info("Apartment stored in DB: [externalId: {}, url: {}", apartment.getExternalId(), apartment.getUrl());
                 storedApartments.add(storedApartment);
             } else {
-                log.info("Apartment already exists in DB: [externalId: {}, url: {}]",
+                log.debug("Apartment already exists in DB: [externalId: {}, url: {}]",
                         apartment.getExternalId(), apartment.getUrl());
             }
         }

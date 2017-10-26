@@ -1,18 +1,46 @@
 <div ng-controller="ApartmentController">
 
     <div class="checkbox">
-        <label>
-            <input type="checkbox" ng-model="filters.showOnlyRecommended" id="only-recommended" ng-click="filter()">
-            Display only recommended
-        </label>
+
     </div>
 
-    <div class="form-group">
-        <label for="pageSize">Page size:</label>
-        <select class="form-control" ng-model="pagination.pageSize" id="pageSize" ng-change="pageSizeChanged(pagination.pageSize)" ng-options="pageSize as pageSize for pageSize in pageSizes">
+    <form class="form-inline">
+        <div class="form-group">
+            <label for="sort">Sort:</label>
+            <select class="form-control" ng-model="filters.selectedSort" id="sort" ng-change="filter()" ng-options="sort as sort for sort in sortItems"></select>
+        </div>
+        <div class="form-group">
+            <label for="pageSize">Page size:</label>
+            <select class="form-control" ng-model="pagination.pageSize" id="pageSize" ng-change="pageApartments()" ng-options="pageSize as pageSize for pageSize in pageSizes"></select>
+        </div>
+        <div class="form-group">
+            <label for="sizeGreaterThan">Size greater than:</label>
+            <select class="form-control" ng-model="filters.sizeGreaterThan" id="sizeGreaterThan" ng-change="filter()" ng-options="apartmentSize as apartmentSize for apartmentSize in apartmentSizes"></select>
+        </div>
+        <div class="form-group">
+            <label for="sizeLessThan">Size smaller than:</label>
+            <select class="form-control" ng-model="filters.sizeLessThan" id="sizeLessThan" ng-change="filter()" ng-options="apartmentSize as apartmentSize for apartmentSize in apartmentSizes"></select>
+        </div>
+        <div class="form-group">
+            <label for="priceGreaterThan">Price greater than:</label>
+            <select class="form-control" ng-model="filters.priceGreaterThan" id="priceGreaterThan" ng-change="filter()" ng-options="price as price for price in prices"></select>
+        </div>
+        <div class="form-group">
+            <label for="priceLessThan">Price smaller than:</label>
+            <select class="form-control" ng-model="filters.priceLessThan" id="priceLessThan" ng-change="filter()" ng-options="price as price for price in prices"></select>
+        </div>
 
-        </select>
-    </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" ng-model="filters.showOnlyRecommended" id="only-recommended" ng-click="filter()">
+                Display only recommended
+            </label>
+        </div>
+
+
+
+    </form>
+    <tags-input id="filterText" ng-model="filters.tags" placeholder="Remove containing" on-tag-removed="filter()" on-tag-added="filter()"></tags-input>
 
     <table class="table table-hover">
         <thead>
@@ -24,6 +52,7 @@
             <th>Area</th>
             <th>No of rooms</th>
             <th>Recommended</th>
+            <th>Created date</th>
             <th>Save this apartment?</th>
         </tr>
         </thead>
@@ -32,10 +61,11 @@
             <td>{{ apartment.price }}</td>
             <td><a href="{{ apartment.url }}" target="_blank">{{ apartment.url }}</a></td>
             <td>{{ apartment.description }}</td>
-            <td>{{ apartment.address }}</td>
+            <td>{{ apartment.address | htmlToPlaintext }}</td>
             <td>{{ apartment.area }}</td>
             <td>{{ apartment.noOfRooms }}</td>
             <td>{{ apartment.recommended ? 'YES' : 'NO' }}</td>
+            <td>{{ apartment.createdDate | date: 'dd-MM-yyyy' }}</td>
             <td>
                 <label>
                     <input type="checkbox" ng-model="apartment.toBeSaved" ng-click="updateApartment(apartment);">
@@ -44,5 +74,5 @@
         </tr>
         </tbody>
     </table>
-    <ul uib-pagination total-items="pagination.totalItems" ng-model="pagination.pageNum" max-size="5" class="pagination-sm" boundary-link-numbers="true" ng-click="pageChanged()"></ul>
+    <ul uib-pagination total-items="pagination.totalItems" items-per-page="pagination.pageSize" ng-model="pagination.pageNum" max-size="5" class="pagination-sm" boundary-link-numbers="true" ng-click="pageApartments()"></ul>
 </div>

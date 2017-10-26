@@ -9,6 +9,9 @@ angular.module('scrapperApp').config(['$routeProvider', function ($routeProvider
         })
         .when('/recommended-apartments', {
             templateUrl: 'views/recommended-apartments.html'
+        })
+        .when('/recommender-config', {
+            templateUrl: 'views/recommender-config.html'
         });
 
 }]);

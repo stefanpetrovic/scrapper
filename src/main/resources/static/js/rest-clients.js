@@ -34,3 +34,9 @@ scrapperApp.factory("KeepAliveREST", function ($resource) {
         "keepAlive"
     );
 });
+
+scrapperApp.factory("RecommenderConfigREST", function ($resource) {
+    return $resource(
+        "recommenderConfig"
+    );
+});

@@ -1,0 +1,41 @@
+<div ng-controller="RecommenderConfigController">
+
+    <div class="row">
+        <form role="form">
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="minPrice" placeholder="Min price" ng-model="config.minPrice">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="maxPrice" placeholder="Max price" ng-model="config.maxPrice">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="minArea" placeholder="Min area" ng-model="config.minArea">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="maxArea" placeholder="Max area" ng-model="config.maxArea">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="maxPriceOfSquareMeter" placeholder="Max price of square meter" ng-model="config.maxPriceOfSquareMeter">
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <button class="button" ng-click="saveConfig()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>

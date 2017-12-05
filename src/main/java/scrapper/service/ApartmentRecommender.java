@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import scrapper.model.Apartment;
 import scrapper.model.ForbiddenAddress;
 import scrapper.model.RecommendationResponse;
+import scrapper.model.RecommenderConfig;
 import scrapper.repo.ForbiddenAddressRepository;
 
 import java.util.List;
@@ -19,22 +20,27 @@ public class ApartmentRecommender {
     @Autowired
     private ForbiddenAddressRepository repository;
 
+    @Autowired
+    private RecommenderConfigService recommenderConfigService;
+
     public RecommendationResponse analyzeApartment(Apartment apartment) {
         Double price = apartment.getPrice();
         Double area = apartment.getArea();
         String address = apartment.getAddress();
 
+        RecommenderConfig config = recommenderConfigService.get();
+
         if (price == null || area == null || address == null) {
             return responseWith().recommended(false).message("Price, area or address is null").build();
         }
 
-        if (price > 100000 || price < 10000) {
-            String message = format("Price is greater than 100000 or smaller than 10000, price: %s", price);
+        if (price > config.getMaxPrice() || price < config.getMinPrice()) {
+            String message = format("Price is greater than %s or smaller than %s, price: %s", config.getMaxPrice(), config.getMinPrice(), price);
             return responseWith().recommended(false).message(message).build();
         }
 
-        if (area > 100 || area < 20) {
-            String message = format("Area is greater than 100 or smaller than 20 square meters, area: %s", area);
+        if (area > config.getMaxArea() || area < config.getMinArea()) {
+            String message = format("Area is greater than %s or smaller than %s square meters, area: %s", config.getMaxArea(), config.getMinArea(), area);
             return responseWith().recommended(false).message(message).build();
         }
 
@@ -47,8 +53,8 @@ public class ApartmentRecommender {
 
         Double pricePerSquareMeter = price / area;
 
-        if (pricePerSquareMeter > 1600) {
-            String message = format("Price per square meter is too high: [price: %s, allowed: 1600", pricePerSquareMeter);
+        if (pricePerSquareMeter > config.getMaxPriceOfSquareMeter()) {
+            String message = format("Price per square meter is too high: [price: %s, allowed: %s", pricePerSquareMeter, config.getMaxPriceOfSquareMeter());
             return responseWith().recommended(false).message(message).build();
         }
 

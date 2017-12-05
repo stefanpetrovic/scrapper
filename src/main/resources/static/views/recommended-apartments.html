@@ -1,36 +1,40 @@
 <div ng-controller="ApartmentController">
 
-    <div class="checkbox">
-
-    </div>
-
-    <form class="form-inline">
-        <div class="form-group">
+    <form class="">
+        <div class="form-group col-sm-4">
             <label for="sort">Sort:</label>
             <select class="form-control" ng-model="filters.selectedSort" id="sort" ng-change="filter()" ng-options="sort as sort for sort in sortItems"></select>
         </div>
-        <div class="form-group">
+        <div class="form-group col-sm-4">
             <label for="pageSize">Page size:</label>
             <select class="form-control" ng-model="pagination.pageSize" id="pageSize" ng-change="pageApartments()" ng-options="pageSize as pageSize for pageSize in pageSizes"></select>
         </div>
-        <div class="form-group">
+        <div class="form-group col-sm-4">
             <label for="sizeGreaterThan">Size greater than:</label>
             <select class="form-control" ng-model="filters.sizeGreaterThan" id="sizeGreaterThan" ng-change="filter()" ng-options="apartmentSize as apartmentSize for apartmentSize in apartmentSizes"></select>
         </div>
-        <div class="form-group">
+        <div class="form-group col-sm-4">
             <label for="sizeLessThan">Size smaller than:</label>
             <select class="form-control" ng-model="filters.sizeLessThan" id="sizeLessThan" ng-change="filter()" ng-options="apartmentSize as apartmentSize for apartmentSize in apartmentSizes"></select>
         </div>
-        <div class="form-group">
+        <div class="form-group col-sm-4">
             <label for="priceGreaterThan">Price greater than:</label>
             <select class="form-control" ng-model="filters.priceGreaterThan" id="priceGreaterThan" ng-change="filter()" ng-options="price as price for price in prices"></select>
         </div>
-        <div class="form-group">
+        <div class="form-group col-sm-4">
             <label for="priceLessThan">Price smaller than:</label>
             <select class="form-control" ng-model="filters.priceLessThan" id="priceLessThan" ng-change="filter()" ng-options="price as price for price in prices"></select>
         </div>
+        <div class="form-group col-sm-4">
+            <label for="pricePerSquareMeterGreaterThan">Price per sqmt gt:</label>
+            <select class="form-control" ng-model="filters.pricePerSquareMeterGreaterThan" id="pricePerSquareMeterGreaterThan" ng-change="filter()" ng-options="price as price for price in pricePerSquareMeterList"></select>
+        </div>
+        <div class="form-group col-sm-4">
+            <label for="pricePerSquareMeterLessThan">Price per sqmt lt:</label>
+            <select class="form-control" ng-model="filters.pricePerSquareMeterLessThan" id="pricePerSquareMeterLessThan" ng-change="filter()" ng-options="price as price for price in pricePerSquareMeterList"></select>
+        </div>
 
-        <div class="form-group">
+        <div class="form-group col-sm-12">
             <label>
                 <input type="checkbox" ng-model="filters.showOnlyRecommended" id="only-recommended" ng-click="filter()">
                 Display only recommended
@@ -46,6 +50,7 @@
         <thead>
         <tr>
             <th>Price</th>
+            <th>Price / sqmt</th>
             <th>URL</th>
             <th>Description</th>
             <th>Address</th>
@@ -59,6 +64,7 @@
         <tbody>
         <tr ng-repeat="apartment in pagedApartments">
             <td>{{ apartment.price }}</td>
+            <td>{{ apartment.price / apartment.area | number : 0}}</td>
             <td><a href="{{ apartment.url }}" target="_blank">{{ apartment.url }}</a></td>
             <td>{{ apartment.description }}</td>
             <td>{{ apartment.address | htmlToPlaintext }}</td>

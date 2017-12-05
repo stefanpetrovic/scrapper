@@ -12,6 +12,10 @@ scrapperApp.controller('ApartmentController', function ApartmentController($scop
         10, 20, 30, 40, 50, 60, 70, 80, 90, 100
     ];
 
+    $scope.pricePerSquareMeterList = [
+        100, 200, 300, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700
+    ];
+
     $scope.prices = [
         10000, 15000, 20000, 25000, 30000, 35000, 40000, 45000, 50000, 55000, 60000, 65000, 70000, 75000, 80000, 85000, 90000
     ];
@@ -23,24 +27,26 @@ scrapperApp.controller('ApartmentController', function ApartmentController($scop
 
     $scope.filters = {
         showOnlyRecommended: true,
-        sizeGreaterThan: $scope.apartmentSizes[0],
-        sizeLessThan: $scope.apartmentSizes[9],
+        sizeGreaterThan: $scope.apartmentSizes[2],
+        sizeLessThan: $scope.apartmentSizes[3],
         priceGreaterThan: $scope.prices[0],
-        priceLessThan: $scope.prices[16],
+        priceLessThan: $scope.prices[8],
+        pricePerSquareMeterGreaterThan: $scope.pricePerSquareMeterList[8],
+        pricePerSquareMeterLessThan: $scope.pricePerSquareMeterList[14],
         tags: [],
-        selectedSort: $scope.sortItems[3]
+        selectedSort: $scope.sortItems[0]
     };
 
     $scope.pagination = {
         pageNum: 1,
-        pageSize: $scope.pageSizes[0],
+        pageSize: $scope.pageSizes[2],
         totalItems: 0
     };
 
     $scope.orderByItem = 'createdDate';
 
     $scope.filter = function() {
-        $scope.filteredApartments = sort(filterByTags(filterByRecommended(filterByApartmentSize(filterByPrice($scope.apartments)))));
+        $scope.filteredApartments = sort(filterByTags(filterByRecommended(filterByApartmentSize(filterByPricePerSquareMeter(filterByPrice($scope.apartments))))));
         $scope.pagination.totalItems = $scope.filteredApartments.length;
         $scope.pageApartments();
     };
@@ -101,6 +107,19 @@ scrapperApp.controller('ApartmentController', function ApartmentController($scop
         });
 
         return result;
+    }
+
+    function filterByPricePerSquareMeter(apartments) {
+        var results = [];
+        apartments.forEach(function(item) {
+            var pricePerSquareMeter = item.price / item.area;
+
+            if (pricePerSquareMeter < $scope.filters.pricePerSquareMeterLessThan && pricePerSquareMeter > $scope.filters.pricePerSquareMeterGreaterThan) {
+                results.push(item);
+            }
+        });
+
+        return results;
     }
 
     function sort(apartments) {

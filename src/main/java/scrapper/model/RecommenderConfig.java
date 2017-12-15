@@ -2,6 +2,7 @@ package scrapper.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import scrapper.processor.ProcessingMode;
 
 @Document(collection = "config")
 public class RecommenderConfig {
@@ -14,6 +15,7 @@ public class RecommenderConfig {
     private int minArea;
     private int maxArea;
     private int maxPriceOfSquareMeter;
+    private ProcessingMode processingMode;
 
     public String getId() {
         return id;
@@ -61,5 +63,13 @@ public class RecommenderConfig {
 
     public void setMaxPriceOfSquareMeter(int maxPriceOfSquareMeter) {
         this.maxPriceOfSquareMeter = maxPriceOfSquareMeter;
+    }
+
+    public ProcessingMode getProcessingMode() {
+        return processingMode;
+    }
+
+    public void setProcessingMode(ProcessingMode processingMode) {
+        this.processingMode = processingMode;
     }
 }

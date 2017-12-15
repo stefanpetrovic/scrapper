@@ -18,6 +18,7 @@ public class Apartment {
     private Double area;
     private Double noOfRooms;
     private ApartmentSource source;
+    private ApartmentPurpose purpose;
     private String externalId;
     private boolean recommended;
     private String message;
@@ -87,6 +88,14 @@ public class Apartment {
 
     public void setSource(ApartmentSource source) {
         this.source = source;
+    }
+
+    public ApartmentPurpose getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(ApartmentPurpose purpose) {
+        this.purpose = purpose;
     }
 
     public String getExternalId() {

@@ -1,45 +1,19 @@
-package scrapper.extractor;
+package scrapper.processor.extractor;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 import scrapper.model.ApartmentSource;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import scrapper.processor.ProcessingMode;
 
 import static scrapper.model.ApartmentSource.NEKRETNINE_RS;
 
-@Component
 public class NekretnineRSApartmentExtractor extends ApartmentExtractorTemplate {
 
-    private static final Logger log = LoggerFactory.getLogger(NekretnineRSApartmentExtractor.class);
+    private final ProcessingMode processingMode;
 
-    @Override
-    public Document fetchApartmentsPage(int pageNum) {
-        RestTemplate restTemplate = new RestTemplate();
-
-        String page = restTemplate.getForObject("https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/cena/10000_100000/poslednja/7/samo-sa-slikom/poredjaj-po/datumu_nanize/lista/po_stranici/20/stranica/{pageNum}", String.class, pageNum);
-
-        log.debug("Fetched Nekretnine.rs page");
-
-        Document doc = Jsoup.parse(page);
-
-        File f = new File("test.html");
-
-        try (FileWriter fileWriter = new FileWriter(f)) {
-            fileWriter.write(doc.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return doc;
+    public NekretnineRSApartmentExtractor(ProcessingMode processingMode) {
+        this.processingMode = processingMode;
     }
 
     @Override
@@ -99,5 +73,10 @@ public class NekretnineRSApartmentExtractor extends ApartmentExtractorTemplate {
     @Override
     protected ApartmentSource getSource() {
         return NEKRETNINE_RS;
+    }
+
+    @Override
+    protected ProcessingMode getProcessingMode() {
+        return processingMode;
     }
 }

@@ -1,34 +1,28 @@
 package scrapper.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import scrapper.model.Apartment;
-import scrapper.model.ForbiddenAddress;
 import scrapper.model.RecommendationResponse;
 import scrapper.model.RecommenderConfig;
-import scrapper.repo.ForbiddenAddressRepository;
 
 import java.util.List;
 
 import static java.lang.String.format;
-import static java.util.stream.Collectors.toList;
 import static scrapper.model.RecommenderResponseBuilder.responseWith;
 
-@Component
 public class ApartmentRecommender {
 
-    @Autowired
-    private ForbiddenAddressRepository repository;
+    private List<String> excludedRegions;
+    private RecommenderConfig config;
 
-    @Autowired
-    private RecommenderConfigService recommenderConfigService;
+    public ApartmentRecommender(List<String> excludedRegions, RecommenderConfig recommenderConfig) {
+        this.excludedRegions = excludedRegions;
+        this.config = recommenderConfig;
+    }
 
     public RecommendationResponse analyzeApartment(Apartment apartment) {
         Double price = apartment.getPrice();
         Double area = apartment.getArea();
         String address = apartment.getAddress();
-
-        RecommenderConfig config = recommenderConfigService.get();
 
         if (price == null || area == null || address == null) {
             return responseWith().recommended(false).message("Price, area or address is null").build();
@@ -44,7 +38,7 @@ public class ApartmentRecommender {
             return responseWith().recommended(false).message(message).build();
         }
 
-        for (String region : excludedRegions()) {
+        for (String region : excludedRegions) {
             if (address.contains(region)) {
                 String message = format("Area is forbidden, [address: %s, region: %s]", address, region);
                 return responseWith().recommended(false).message(message).build();
@@ -59,12 +53,6 @@ public class ApartmentRecommender {
         }
 
         return responseWith().recommended(true).build();
-    }
-
-    private List<String> excludedRegions() {
-        List<ForbiddenAddress> forbiddenAddresses = repository.findAll();
-
-        return forbiddenAddresses.stream().map(ForbiddenAddress::getAddress).collect(toList());
     }
 
 }

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import scrapper.model.RecommenderConfig;
 import scrapper.service.RecommenderConfigService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/recommenderConfig")
 public class RecommenderConfigREST {
@@ -17,8 +19,8 @@ public class RecommenderConfigREST {
     private RecommenderConfigService recommenderConfigService;
 
     @GetMapping
-    public RecommenderConfig getConfig() {
-        return recommenderConfigService.get();
+    public List<RecommenderConfig> getAllConfig() {
+        return recommenderConfigService.getAll();
     }
 
     @RequestMapping(method = RequestMethod.POST)

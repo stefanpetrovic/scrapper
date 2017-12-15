@@ -1,24 +1,20 @@
 scrapperApp.controller('RecommenderConfigController', function RecommenderConfigController($scope, RecommenderConfigREST) {
 
-    $scope.config = {
-        minPrice: 10000,
-        maxPrice: 100000,
-        minArea: 10,
-        maxArea: 100,
-        maxPriceOfSquareMeter: 1600
-    };
+    $scope.processingModes = [
+        'PRODAJA',
+        'IZDAVANJE'
+    ];
 
-    $scope.saveConfig = function() {
-        RecommenderConfigREST.save({}, $scope.config, function(success) {
-            $scope.config = success;
+    $scope.configList = [];
+
+    $scope.saveConfig = function(index) {
+        RecommenderConfigREST.save({}, $scope.configList[index], function(success) {
         });
     };
 
     function init() {
-        RecommenderConfigREST.get({}, function(success) {
-            if (!angular.equals({}, success.toJSON())) {
-                $scope.config = success.toJSON();
-            }
+        RecommenderConfigREST.query({}, function(success) {
+            $scope.configList = success;
         });
     }
 

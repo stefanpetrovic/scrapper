@@ -1,32 +1,24 @@
-package scrapper.extractor;
+package scrapper.processor.extractor;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 import scrapper.model.ApartmentSource;
+import scrapper.processor.ProcessingMode;
 
 import static org.springframework.util.StringUtils.isEmpty;
 
-@Component
 public class HaloOglasiApartmentExtractor extends ApartmentExtractorTemplate {
 
     private static final Logger log = LoggerFactory.getLogger(HaloOglasiApartmentExtractor.class);
     private static final String HALO_OGLASI_URL_PREFIX = "https://www.halooglasi.com";
 
-    @Override
-    public Document fetchApartmentsPage(int pageNum) {
-        RestTemplate restTemplate = new RestTemplate();
+    private final ProcessingMode processingMode;
 
-        String page = restTemplate.getForObject("https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd?cena_d_to=60000&cena_d_unit=4&kvadratura_d_from=60&kvadratura_d_unit=1&page={page}", String.class, pageNum);
-
-        log.debug("Fetched Hallo oglasi page");
-
-        return Jsoup.parse(page);
+    public HaloOglasiApartmentExtractor(ProcessingMode processingMode) {
+        this.processingMode = processingMode;
     }
 
     @Override
@@ -107,6 +99,10 @@ public class HaloOglasiApartmentExtractor extends ApartmentExtractorTemplate {
 
         String roomStr = roomRaw.substring(0, roomRaw.indexOf("nbsp") - 1);
 
+        if (roomStr.startsWith("5+")) {
+            return 5.0;
+        }
+
         try {
             return Double.parseDouble(roomStr);
         } catch (NumberFormatException e) {
@@ -131,5 +127,10 @@ public class HaloOglasiApartmentExtractor extends ApartmentExtractorTemplate {
     @Override
     protected ApartmentSource getSource() {
         return ApartmentSource.HALO_OGLASI;
+    }
+
+    @Override
+    protected ProcessingMode getProcessingMode() {
+        return processingMode;
     }
 }

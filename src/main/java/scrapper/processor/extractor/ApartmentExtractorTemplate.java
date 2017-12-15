@@ -1,4 +1,4 @@
-package scrapper.extractor;
+package scrapper.processor.extractor;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -6,11 +6,15 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import scrapper.model.Apartment;
+import scrapper.model.ApartmentPurpose;
 import scrapper.model.ApartmentSource;
+import scrapper.processor.ProcessingMode;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import static scrapper.processor.ProcessingMode.PRODAJA;
 
 public abstract class ApartmentExtractorTemplate {
 
@@ -43,6 +47,7 @@ public abstract class ApartmentExtractorTemplate {
             apartment.setNoOfRooms(rooms);
             apartment.setSource(getSource());
             apartment.setExternalId(externalId);
+            apartment.setPurpose(getApartmentPurpose());
 
             return apartment;
         }
@@ -75,8 +80,6 @@ public abstract class ApartmentExtractorTemplate {
 
     protected abstract Elements getApartmentsElements(Document document);
 
-    protected abstract Document fetchApartmentsPage(int pageNum);
-
     protected abstract String extractPriceString(Element element);
 
     protected abstract Double extractPrice(String rawPrice);
@@ -95,4 +98,11 @@ public abstract class ApartmentExtractorTemplate {
 
     protected abstract ApartmentSource getSource();
 
+    protected abstract ProcessingMode getProcessingMode();
+
+    private ApartmentPurpose getApartmentPurpose() {
+        ProcessingMode processingMode = getProcessingMode();
+
+        return (processingMode.equals(PRODAJA)) ? ApartmentPurpose.PRODAJA : ApartmentPurpose.IZDAVANJE;
+    }
 }

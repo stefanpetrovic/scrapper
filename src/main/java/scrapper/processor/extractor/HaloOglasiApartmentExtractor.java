@@ -9,6 +9,7 @@ import scrapper.model.ApartmentSource;
 import scrapper.processor.ProcessingMode;
 
 import static org.springframework.util.StringUtils.isEmpty;
+import static scrapper.processor.ProcessingMode.PRODAJA;
 
 public class HaloOglasiApartmentExtractor extends ApartmentExtractorTemplate {
 
@@ -44,17 +45,21 @@ public class HaloOglasiApartmentExtractor extends ApartmentExtractorTemplate {
             return 0.0;
         }
 
+        double result = 0.0;
+
         try {
-            return Double.parseDouble(priceString);
+            result = Double.parseDouble(priceString);
         } catch (NumberFormatException e) {
             try {
                 String[] parts = priceString.split(",");
-                return Double.parseDouble(parts[0]) * 1000 + Double.parseDouble(parts[1]);
+                result = Double.parseDouble(parts[0]) * 1000 + Double.parseDouble(parts[1]);
             } catch (Exception ex) {
                 log.warn("Fatal error:", ex);
                 return 0.0;
             }
         }
+
+        return processingMode.equals(PRODAJA) ? result : result / 1000;
     }
 
     @Override

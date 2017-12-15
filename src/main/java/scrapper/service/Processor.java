@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import scrapper.email.EmailGenerator;
 import scrapper.email.SendgridMailSender;
@@ -89,7 +90,7 @@ public class Processor {
     }
 
     //hourly rate
-    //@Scheduled(fixedRate = 1000 * 60 * 60)
+    @Scheduled(fixedRate = 1000 * 60 * 60)
     public void automaticProcess() {
         log.info("Started automatic processing of apartments.");
         this.process();

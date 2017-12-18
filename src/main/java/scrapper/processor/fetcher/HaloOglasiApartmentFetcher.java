@@ -30,7 +30,7 @@ public class HaloOglasiApartmentFetcher extends ApartmentFetcher {
 
         String page = restTemplate.getForObject(url, String.class, pageNumber);
 
-        log.debug("Fetched Hallo oglasi page for [{}]", processingMode.name());
+        log.debug("Fetched Hallo oglasi page, mode [{}]", processingMode);
 
         return Jsoup.parse(page);
     }

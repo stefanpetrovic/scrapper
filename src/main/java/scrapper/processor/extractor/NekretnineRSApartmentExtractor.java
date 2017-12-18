@@ -3,6 +3,8 @@ package scrapper.processor.extractor;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import scrapper.model.ApartmentSource;
 import scrapper.processor.ProcessingMode;
 
@@ -10,6 +12,7 @@ import static scrapper.model.ApartmentSource.NEKRETNINE_RS;
 
 public class NekretnineRSApartmentExtractor extends ApartmentExtractorTemplate {
 
+    private static final Logger log = LoggerFactory.getLogger(NekretnineRSApartmentExtractor.class);
     private final ProcessingMode processingMode;
 
     public NekretnineRSApartmentExtractor(ProcessingMode processingMode) {
@@ -28,12 +31,17 @@ public class NekretnineRSApartmentExtractor extends ApartmentExtractorTemplate {
         int index = rawPrice.indexOf("m2");
         int index2 = rawPrice.indexOf("EUR");
 
-        return rawPrice.substring(index + 3, index2).trim();
+        try {
+            return rawPrice.substring(index + 3, index2).trim();
+        } catch(Exception e){
+            log.error("Error extracting price: ", e);
+        }
+        return "0";
     }
 
     @Override
     protected Double extractPrice(String rawPrice) {
-        return Double.parseDouble(rawPrice) * 1000;
+        return ProcessingMode.PRODAJA.equals(processingMode) ? Double.parseDouble(rawPrice) * 1000 : Double.parseDouble(rawPrice);
     }
 
     @Override

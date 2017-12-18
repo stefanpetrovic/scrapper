@@ -2,29 +2,7 @@
     <springProfile name="default, local">
         <jmxConfigurator/>
         <include resource="org/springframework/boot/logging/logback/base.xml"/>
-        <logger name="com.tms" level="DEBUG"/>
+        <logger name="scrapper" level="INFO"/>
         <!--<logger name="org.springframework" level="DEBUG"/>-->
     </springProfile>
-    <!--<springProfile name="dev, prod">
-        <jmxConfigurator/>
-        <property name="logFileBase" value="/opt/tms/logs/tms-user-cs"/>
-        <appender name="FILEOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
-            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                &lt;!&ndash; roll-over nightly at midnight &ndash;&gt;
-                <fileNamePattern>${logFileBase}.%d.log.gz</fileNamePattern>
-            </rollingPolicy>
-            <encoder>
-                <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
-                </Pattern>
-            </encoder>
-        </appender>
-
-        <root level="INFO">
-            <appender-ref ref="FILEOUT"/>
-        </root>
-
-        <logger name="com.tms">
-            <level value="INFO"/>
-        </logger>
-    </springProfile>-->
 </configuration>

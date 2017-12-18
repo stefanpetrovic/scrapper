@@ -14,7 +14,7 @@ public class NekretnineRSApartmentFetcher extends ApartmentFetcher {
     private static final Logger log = LoggerFactory.getLogger(NekretnineRSApartmentFetcher.class);
 
     private static final String PRODAJA_URL_TEMPLATE = "https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/cena/10000_100000/poslednja/7/samo-sa-slikom/poredjaj-po/datumu_nanize/lista/po_stranici/20/stranica/{pageNum}";
-    private static final String IZDAVANJE_URL_TEMPLATE = "https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/izdavanje/grad/beograd/cena/10000_100000/poslednja/7/samo-sa-slikom/poredjaj-po/datumu_nanize/lista/po_stranici/20/stranica/{pageNum}";
+    private static final String IZDAVANJE_URL_TEMPLATE = "https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/izdavanje/grad/beograd/cena/0_500/poslednja/7/samo-sa-slikom/poredjaj-po/datumu_nanize/lista/po_stranici/20/stranica/{pageNum}";
 
     private final ProcessingMode processingMode;
 
@@ -30,7 +30,7 @@ public class NekretnineRSApartmentFetcher extends ApartmentFetcher {
 
         String page = restTemplate.getForObject(url, String.class, pageNumber);
 
-        log.debug("Fetched Nekretnine.rs page");
+        log.debug("Fetched Nekretnine.rs page, mode: [{}]", processingMode);
 
         return Jsoup.parse(page);
     }

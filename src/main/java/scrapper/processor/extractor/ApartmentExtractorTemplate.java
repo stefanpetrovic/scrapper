@@ -25,7 +25,7 @@ public abstract class ApartmentExtractorTemplate {
 
         Double price = extractPrice(priceStr);
 
-        if (price > 10000) {
+        if (price > 100) {
             String url = extractUrl(element);
 
             String description = extractDescription(element);

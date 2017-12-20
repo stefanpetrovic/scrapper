@@ -33,7 +33,7 @@ public class ApartmentStorage {
 
             if (apartmentToStore == null) {
                 Apartment storedApartment = apartmentRepository.save(apartment);
-                log.info("Apartment stored in DB: [externalId: {}, url: {}", apartment.getExternalId(), apartment.getUrl());
+                log.debug("Apartment stored in DB: [externalId: {}, url: {}", apartment.getExternalId(), apartment.getUrl());
                 storedApartments.add(storedApartment);
             } else {
                 log.debug("Apartment already exists in DB: [externalId: {}, url: {}]",

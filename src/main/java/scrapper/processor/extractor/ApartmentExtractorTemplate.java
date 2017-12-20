@@ -73,7 +73,7 @@ public abstract class ApartmentExtractorTemplate {
             }
         }
 
-        log.info("Extracted {} apartments", apartmentList.size());
+        log.debug("Extracted {} apartments", apartmentList.size());
 
         return apartmentList;
     }

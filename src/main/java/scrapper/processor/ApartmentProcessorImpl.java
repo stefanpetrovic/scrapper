@@ -13,6 +13,7 @@ public class ApartmentProcessorImpl implements ApartmentProcessor {
     private ApartmentExtractorTemplate extractorTemplate;
     private ApartmentAnalyzer apartmentAnalyzer;
     private ProcessingMode processingMode;
+    private ApartmentProcessor nextProcessor;
 
     public ApartmentProcessorImpl(ApartmentFetcher fetcher, ApartmentExtractorTemplate extractorTemplate, ApartmentAnalyzer apartmentAnalyzer, ProcessingMode processingMode) {
         this.fetcher = fetcher;
@@ -22,7 +23,22 @@ public class ApartmentProcessorImpl implements ApartmentProcessor {
     }
 
     @Override
-    public List<Apartment> processApartments(int pageNumber) {
+    public void setNextProcessor(ApartmentProcessor apartmentProcessor) {
+        this.nextProcessor = apartmentProcessor;
+    }
+
+    @Override
+    public List<Apartment> process(int pageNumber) {
+        List<Apartment> apartments = processApartments(pageNumber);
+
+        if (nextProcessor != null) {
+            apartments.addAll(nextProcessor.process(pageNumber));
+        }
+
+        return apartments;
+    }
+
+    private List<Apartment> processApartments(int pageNumber) {
         return apartmentAnalyzer.analyzeApartments(extractorTemplate.extractApartmentsElements(fetcher.fetchApartments(pageNumber)), processingMode);
     }
 }

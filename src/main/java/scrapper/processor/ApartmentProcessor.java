@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface ApartmentProcessor {
 
-    List<Apartment> processApartments(int pageNumber);
+    void setNextProcessor(ApartmentProcessor apartmentProcessor);
+
+    List<Apartment> process(int pageNumber);
 }

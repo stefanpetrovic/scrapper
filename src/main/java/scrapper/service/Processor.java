@@ -71,7 +71,7 @@ public class Processor {
         List<Apartment> recommendedApartments = processedApartments.stream().filter(Apartment::isRecommended).collect(Collectors.toList());
 
         if (recommendedApartments.isEmpty()) {
-            //finish process if no apartments are to be sent via email
+            //finish process if no apartments are to be sent via email 
             log.info("No apartments to recommend, exiting process.");
             return;
         }

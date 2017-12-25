@@ -27,6 +27,8 @@ public class ApartmentStorage {
             return storedApartments;
         }
 
+        log.info("Received {} apartments to store. ", apartments.size());
+
         for (Apartment apartment : apartments) {
             Apartment apartmentToStore =
                     apartmentRepository.findByExternalIdAndSource(apartment.getExternalId(), apartment.getSource().name());
@@ -41,6 +43,7 @@ public class ApartmentStorage {
             }
         }
 
+        log.info("Stored {} new apartments.", storedApartments.size());
         return storedApartments;
     }
 }

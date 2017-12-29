@@ -1,6 +1,12 @@
 <div ng-controller="ApartmentController">
 
-    <form class="">
+    <div class="btn-group" data-toggle="buttons">
+        <label ng-repeat="purpose in purposes" ng-class="{active: selectedPurpose===purpose}" class="btn btn-primary">
+            <input type="radio" name="options" autocomplete="off" ng-model="selectedPurpose" >{{purpose}}
+        </label>
+    </div>
+
+    <form>
         <div class="form-group col-sm-4">
             <label for="sort">Sort:</label>
             <select class="form-control" ng-model="filters.selectedSort" id="sort" ng-change="filter()" ng-options="sort as sort for sort in sortItems"></select>
@@ -40,11 +46,12 @@
                 Display only recommended
             </label>
         </div>
-
-
-
     </form>
-    <tags-input id="filterText" ng-model="filters.tags" placeholder="Remove containing" on-tag-removed="filter()" on-tag-added="filter()"></tags-input>
+    <div class="row">
+        <div class="col-sm-12">
+            <tags-input id="filterText" ng-model="filters.tags" placeholder="Remove containing" on-tag-removed="filter()" on-tag-added="filter()"></tags-input>
+        </div>
+    </div>
 
     <table class="table table-hover">
         <thead>

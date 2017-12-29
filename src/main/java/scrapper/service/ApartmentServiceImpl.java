@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import scrapper.model.Apartment;
+import scrapper.model.ApartmentPurpose;
 import scrapper.repo.ApartmentRepository;
 
 import javax.validation.ValidationException;
@@ -34,8 +35,8 @@ public class ApartmentServiceImpl implements ApartmentService {
     }
 
     @Override
-    public List<Apartment> findAllApartments() {
-        return repository.findAll();
+    public List<Apartment> findAllApartments(ApartmentPurpose purpose) {
+        return repository.findByPurposeOrderByCreatedDateDesc(purpose);
     }
 
     @Scheduled(fixedDelay = 1000*60*60*24)

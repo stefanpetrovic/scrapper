@@ -12,6 +12,7 @@ import scrapper.email.EmailGenerator;
 import scrapper.email.SendgridMailSender;
 import scrapper.model.Apartment;
 import scrapper.processor.ApartmentProcessor;
+import scrapper.processor.ApartmentProcessorChainBuilder;
 import scrapper.processor.ApartmentProcessorFactory;
 import scrapper.processor.ProcessingMode;
 
@@ -41,21 +42,13 @@ public class Processor {
     private EmailGenerator emailGenerator;
 
     @Autowired
-    private ApartmentProcessorFactory apartmentProcessorFactory;
+    private ApartmentProcessorChainBuilder processorChainBuilder;
 
     private ApartmentProcessor apartmentProcessorChain;
 
     @PostConstruct
     public void init() {
-        apartmentProcessorChain = apartmentProcessorFactory.getProcessorFor(HALO_OGLASI, ProcessingMode.PRODAJA);
-
-        ApartmentProcessor nekretnineRSProdajaProcessor = apartmentProcessorFactory.getProcessorFor(NEKRETNINE_RS, ProcessingMode.PRODAJA);
-        ApartmentProcessor haloOglasiIzdavanjeProcessor = apartmentProcessorFactory.getProcessorFor(HALO_OGLASI, ProcessingMode.IZDAVANJE);
-        ApartmentProcessor nekretnineRSIzdavanjeProcessor = apartmentProcessorFactory.getProcessorFor(NEKRETNINE_RS, ProcessingMode.IZDAVANJE);
-
-        apartmentProcessorChain.setNextProcessor(nekretnineRSProdajaProcessor);
-        nekretnineRSProdajaProcessor.setNextProcessor(haloOglasiIzdavanjeProcessor);
-        haloOglasiIzdavanjeProcessor.setNextProcessor(nekretnineRSIzdavanjeProcessor);
+        apartmentProcessorChain = processorChainBuilder.build();
     }
 
     @Async
@@ -71,7 +64,6 @@ public class Processor {
         List<Apartment> recommendedApartments = processedApartments.stream().filter(Apartment::isRecommended).collect(Collectors.toList());
 
         if (recommendedApartments.isEmpty()) {
-            //finish process if no apartments are to be sent via email 
             log.info("No apartments to recommend, exiting process.");
             return;
         }

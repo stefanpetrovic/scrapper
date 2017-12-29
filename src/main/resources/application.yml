@@ -18,3 +18,12 @@ numberOfPagesToProcess: 30
 
 #in milliseconds
 processingInterval: 7200000
+
+processorConfig:
+  enabledProcessors:
+    HALO_OGLASI:
+      - PRODAJA
+      - IZDAVANJE
+    NEKRETNINE_RS:
+      - PRODAJA
+      - IZDAVANJE

@@ -62,7 +62,7 @@ public class Processor {
     public void process() {
         List<Apartment> processedApartments = new ArrayList<>();
 
-        for (int i = 1; i < numberOfPagesToProcess; i++) {
+        for (int i = 0; i < numberOfPagesToProcess; i++) {
             processedApartments = apartmentProcessorChain.process(i);
         }
 
@@ -101,8 +101,7 @@ public class Processor {
         }
     }
 
-    //hourly rate
-    @Scheduled(fixedRate = 1000 * 60 * 60)
+    @Scheduled(fixedRateString = "${processingInterval}")
     public void automaticProcess() {
         log.info("Started automatic processing of apartments.");
         this.process();

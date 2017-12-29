@@ -2,7 +2,6 @@
     <springProfile name="default, local">
         <jmxConfigurator/>
         <include resource="org/springframework/boot/logging/logback/base.xml"/>
-        <logger name="scrapper" level="DEBUG"/>
-        <!--<logger name="org.springframework" level="DEBUG"/>-->
+        <logger name="scrapper" level="INFO"/>
     </springProfile>
 </configuration>

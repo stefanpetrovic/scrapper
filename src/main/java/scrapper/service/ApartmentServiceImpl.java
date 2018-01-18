@@ -43,9 +43,9 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Override
     public void cleanUpStaleRecords() {
         log.info("Started cleaning up stale records.");
-        //current date minus 30 days
-        Instant date30DaysAgo = Instant.now().minus(30, ChronoUnit.DAYS);
-        List<Apartment> apartmentsToDelete = repository.findByToBeSavedFalseAndCreatedDateBefore(new Date(date30DaysAgo.getEpochSecond()));
+        //current date minus 7 days
+        Instant date7DaysAgo = Instant.now().minus(7, ChronoUnit.DAYS);
+        List<Apartment> apartmentsToDelete = repository.findByToBeSavedFalseAndCreatedDateBefore(new Date(date7DaysAgo.getEpochSecond()));
 
         int numberOfRecordsToRemove = apartmentsToDelete.size();
         if (numberOfRecordsToRemove > 0) {

@@ -27,7 +27,7 @@ public class ApartmentStorage {
             return storedApartments;
         }
 
-        log.info("Received {} apartments to store. ", apartments.size());
+        log.debug("Received {} apartments to store. ", apartments.size());
 
         for (Apartment apartment : apartments) {
             Apartment apartmentToStore =
@@ -43,7 +43,7 @@ public class ApartmentStorage {
             }
         }
 
-        log.info("Stored {} new apartments.", storedApartments.size());
+        log.debug("Stored {} new apartments.", storedApartments.size());
         return storedApartments;
     }
 }

@@ -64,6 +64,7 @@
             <th>Area</th>
             <th>No of rooms</th>
             <th>Recommended</th>
+            <th>Reason</th>
             <th>Created date</th>
             <th>Save this apartment?</th>
         </tr>
@@ -78,6 +79,7 @@
             <td>{{ apartment.area }}</td>
             <td>{{ apartment.noOfRooms }}</td>
             <td>{{ apartment.recommended ? 'YES' : 'NO' }}</td>
+            <td>{{ apartment.message }}</td>
             <td>{{ apartment.createdDate | date: 'dd-MM-yyyy' }}</td>
             <td>
                 <label>

@@ -13,8 +13,6 @@ import scrapper.email.SendgridMailSender;
 import scrapper.model.Apartment;
 import scrapper.processor.ApartmentProcessor;
 import scrapper.processor.ApartmentProcessorChainBuilder;
-import scrapper.processor.ApartmentProcessorFactory;
-import scrapper.processor.ProcessingMode;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -24,8 +22,6 @@ import java.util.stream.Collectors;
 
 import static scrapper.model.ApartmentPurpose.IZDAVANJE;
 import static scrapper.model.ApartmentPurpose.PRODAJA;
-import static scrapper.model.ApartmentSource.HALO_OGLASI;
-import static scrapper.model.ApartmentSource.NEKRETNINE_RS;
 
 @Component
 public class Processor {
@@ -72,10 +68,12 @@ public class Processor {
         List<Apartment> apartmentsIzdavanje = recommendedApartments.stream().filter(e -> IZDAVANJE.equals(e.getPurpose())).collect(Collectors.toList());
 
         if (!apartmentsProdaja.isEmpty()) {
+            log.info("Notifying user about: {} new apartments for PRODAJA.", apartmentsProdaja.size());
             sendEmail(apartmentsProdaja, "Stanovi - prodaja");
         }
 
         if (!apartmentsIzdavanje.isEmpty()) {
+            log.info("Notifying user about: {} new apartments for IZDAVANJE.", apartmentsIzdavanje.size());
             sendEmail(apartmentsIzdavanje, "Stanovi - izdavanje");
         }
 

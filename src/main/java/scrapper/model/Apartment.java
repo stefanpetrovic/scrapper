@@ -23,6 +23,7 @@ public class Apartment {
     private boolean recommended;
     private String message;
     private boolean toBeSaved;
+    private String imageURL;
     @CreatedDate
     private Date createdDate;
 
@@ -128,6 +129,14 @@ public class Apartment {
 
     public void setToBeSaved(boolean toBeSaved) {
         this.toBeSaved = toBeSaved;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     public Date getCreatedDate() {

@@ -56,6 +56,7 @@
     <table class="table table-hover">
         <thead>
         <tr>
+            <th>/</th>
             <th>Price</th>
             <th>Price / sqmt</th>
             <th>URL</th>
@@ -71,6 +72,9 @@
         </thead>
         <tbody>
         <tr ng-repeat="apartment in pagedApartments">
+            <td>
+                <img ng-src="{{ apartment.imageURL }}" class="img-fluid" style="width: 300px;" alt="No image."/>
+            </td>
             <td>{{ apartment.price }}</td>
             <td>{{ apartment.price / apartment.area | number : 0}}</td>
             <td><a href="{{ apartment.url }}" target="_blank">{{ apartment.url }}</a></td>

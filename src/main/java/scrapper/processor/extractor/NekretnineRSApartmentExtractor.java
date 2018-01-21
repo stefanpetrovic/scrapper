@@ -87,4 +87,14 @@ public class NekretnineRSApartmentExtractor extends ApartmentExtractorTemplate {
     protected ProcessingMode getProcessingMode() {
         return processingMode;
     }
+
+    @Override
+    protected String extractImageURL(Element element) {
+        try {
+            return "https://www.nekretnine.rs" + element.select(".resultImg").select("img").attr("src");
+        } catch(Exception e) {
+            log.error("Error occurred while extracting image url: ", e);
+            return "";
+        }
+    }
 }

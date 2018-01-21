@@ -38,6 +38,8 @@ public abstract class ApartmentExtractorTemplate {
 
             String externalId = extractExternalId(element);
 
+            String imageURL = extractImageURL(element);
+
             Apartment apartment = new Apartment();
             apartment.setPrice(price);
             apartment.setUrl(url);
@@ -48,7 +50,7 @@ public abstract class ApartmentExtractorTemplate {
             apartment.setSource(getSource());
             apartment.setExternalId(externalId);
             apartment.setPurpose(getApartmentPurpose());
-
+            apartment.setImageURL(imageURL);
             return apartment;
         }
 
@@ -99,6 +101,8 @@ public abstract class ApartmentExtractorTemplate {
     protected abstract ApartmentSource getSource();
 
     protected abstract ProcessingMode getProcessingMode();
+
+    protected abstract String extractImageURL(Element element);
 
     private ApartmentPurpose getApartmentPurpose() {
         ProcessingMode processingMode = getProcessingMode();

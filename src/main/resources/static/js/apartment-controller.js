@@ -44,7 +44,7 @@ scrapperApp.controller('ApartmentController', function ApartmentController($scop
             selectedSort: $scope.sortItems[0]
         },
         'IZDAVANJE': {
-            showOnlyRecommended: true,
+            showOnlyRecommended: false,
             sizeGreaterThan: $scope.apartmentSizes[2],
             sizeLessThan: $scope.apartmentSizes[3],
             priceGreaterThan: $scope.prices[0],
@@ -60,7 +60,7 @@ scrapperApp.controller('ApartmentController', function ApartmentController($scop
 
     $scope.pagination = {
         pageNum: 1,
-        pageSize: $scope.pageSizes[2],
+        pageSize: $scope.pageSizes[0],
         totalItems: 0
     };
 
@@ -73,7 +73,7 @@ scrapperApp.controller('ApartmentController', function ApartmentController($scop
     };
 
     $scope.purposeChanged = function() {
-        alert($scope.selectedPurpose);
+
     };
 
     function filterByApartmentSize(apartments) {
@@ -185,7 +185,7 @@ scrapperApp.controller('ApartmentController', function ApartmentController($scop
         $scope.pagedApartments = $scope.filteredApartments.slice(($scope.pagination.pageNum - 1) * $scope.pagination.pageSize, $scope.pagination.pageNum * $scope.pagination.pageSize);
     };
 
-    $scope.$watch('selectedPurpose', function() {alert($scope.selectedPurpose);});
+    $scope.$watch('selectedPurpose', function() {});
     function init() {
         fetchPage();
     }

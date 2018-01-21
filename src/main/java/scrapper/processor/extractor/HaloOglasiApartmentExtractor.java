@@ -138,4 +138,14 @@ public class HaloOglasiApartmentExtractor extends ApartmentExtractorTemplate {
     protected ProcessingMode getProcessingMode() {
         return processingMode;
     }
+
+    @Override
+    protected String extractImageURL(Element element) {
+        try {
+            return element.select(".pi-img-wrapper").select("a").select("img").attr("src");
+        } catch (Exception e) {
+            log.error("Error occurred while extracting image URL: ", e);
+            return "";
+        }
+    }
 }

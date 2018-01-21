@@ -39,6 +39,7 @@ public class SendgridMailSender {
 
             return true;
         } catch (IOException e) {
+            log.error("IO error occurred while sending mail: ", e);
             return false;
         }
     }

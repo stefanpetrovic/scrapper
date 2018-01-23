@@ -1,4 +1,4 @@
-package scrapper.processor.extractor;
+package scrapper.processor.extractor.html;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,14 +11,14 @@ import scrapper.processor.ProcessingMode;
 import static org.springframework.util.StringUtils.isEmpty;
 import static scrapper.processor.ProcessingMode.PRODAJA;
 
-public class HaloOglasiApartmentExtractor extends ApartmentExtractorTemplate {
+public class HaloOglasiHTMLExtractor extends HTMLExtractorTemplate {
 
-    private static final Logger log = LoggerFactory.getLogger(HaloOglasiApartmentExtractor.class);
+    private static final Logger log = LoggerFactory.getLogger(HaloOglasiHTMLExtractor.class);
     private static final String HALO_OGLASI_URL_PREFIX = "https://www.halooglasi.com";
 
     private final ProcessingMode processingMode;
 
-    public HaloOglasiApartmentExtractor(ProcessingMode processingMode) {
+    public HaloOglasiHTMLExtractor(ProcessingMode processingMode) {
         this.processingMode = processingMode;
     }
 

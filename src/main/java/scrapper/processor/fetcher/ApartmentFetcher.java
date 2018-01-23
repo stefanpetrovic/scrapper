@@ -1,8 +1,6 @@
 package scrapper.processor.fetcher;
 
-import org.jsoup.nodes.Document;
+public interface ApartmentFetcher<T> {
 
-public abstract class ApartmentFetcher {
-
-    public abstract Document fetchApartments(int pageNumber);
+    T fetchApartments(int pageNumber);
 }

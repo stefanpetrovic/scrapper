@@ -1,4 +1,4 @@
-package scrapper.processor.extractor;
+package scrapper.processor.extractor.html;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -10,12 +10,12 @@ import scrapper.processor.ProcessingMode;
 
 import static scrapper.model.ApartmentSource.NEKRETNINE_RS;
 
-public class NekretnineRSApartmentExtractor extends ApartmentExtractorTemplate {
+public class NekretnineRSHTMLExtractor extends HTMLExtractorTemplate {
 
-    private static final Logger log = LoggerFactory.getLogger(NekretnineRSApartmentExtractor.class);
+    private static final Logger log = LoggerFactory.getLogger(NekretnineRSHTMLExtractor.class);
     private final ProcessingMode processingMode;
 
-    public NekretnineRSApartmentExtractor(ProcessingMode processingMode) {
+    public NekretnineRSHTMLExtractor(ProcessingMode processingMode) {
         this.processingMode = processingMode;
     }
 

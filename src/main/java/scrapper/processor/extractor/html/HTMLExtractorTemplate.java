@@ -1,4 +1,4 @@
-package scrapper.processor.extractor;
+package scrapper.processor.extractor.html;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -9,6 +9,7 @@ import scrapper.model.Apartment;
 import scrapper.model.ApartmentPurpose;
 import scrapper.model.ApartmentSource;
 import scrapper.processor.ProcessingMode;
+import scrapper.processor.extractor.ApartmentExtractor;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,11 +17,34 @@ import java.util.List;
 
 import static scrapper.processor.ProcessingMode.PRODAJA;
 
-public abstract class ApartmentExtractorTemplate {
+public abstract class HTMLExtractorTemplate implements ApartmentExtractor<Document> {
 
-    private static final Logger log = LoggerFactory.getLogger(ApartmentExtractorTemplate.class);
+    private static final Logger log = LoggerFactory.getLogger(HTMLExtractorTemplate.class);
 
-    public final Apartment extractApartment(Element element) {
+    public final List<Apartment> extractApartmentsElements(Document document) {
+        Elements apartments = getApartmentsElements(document);
+
+        Iterator<Element> apartmentIterator = apartments.iterator();
+
+        List<Apartment> apartmentList = new ArrayList<>();
+
+        while (apartmentIterator.hasNext()) {
+            Element el = apartmentIterator.next();
+
+            Apartment apartment = extractApartment(el);
+
+            if (apartment != null) {
+                log.debug("Extracted apartment: [externalId: {}, url: {}]", apartment.getExternalId(), apartment.getUrl());
+                apartmentList.add(apartment);
+            }
+        }
+
+        log.debug("Extracted {} apartments", apartmentList.size());
+
+        return apartmentList;
+    }
+
+    private final Apartment extractApartment(Element element) {
         String priceStr = extractPriceString(element);
 
         Double price = extractPrice(priceStr);
@@ -55,29 +79,6 @@ public abstract class ApartmentExtractorTemplate {
         }
 
         return null;
-    }
-
-    public final List<Apartment> extractApartmentsElements(Document document) {
-        Elements apartments = getApartmentsElements(document);
-
-        Iterator<Element> apartmentIterator = apartments.iterator();
-
-        List<Apartment> apartmentList = new ArrayList<>();
-
-        while (apartmentIterator.hasNext()) {
-            Element el = apartmentIterator.next();
-
-            Apartment apartment = extractApartment(el);
-
-            if (apartment != null) {
-                log.debug("Extracted apartment: [externalId: {}, url: {}]", apartment.getExternalId(), apartment.getUrl());
-                apartmentList.add(apartment);
-            }
-        }
-
-        log.debug("Extracted {} apartments", apartmentList.size());
-
-        return apartmentList;
     }
 
     protected abstract Elements getApartmentsElements(Document document);

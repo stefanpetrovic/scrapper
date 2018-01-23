@@ -1,4 +1,4 @@
-package scrapper.processor.fetcher;
+package scrapper.processor.fetcher.html;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -9,7 +9,7 @@ import scrapper.processor.ProcessingMode;
 
 import static scrapper.processor.ProcessingMode.PRODAJA;
 
-public class NekretnineRSApartmentFetcher extends ApartmentFetcher {
+public class NekretnineRSApartmentFetcher implements DocumentFetcher {
 
     private static final Logger log = LoggerFactory.getLogger(NekretnineRSApartmentFetcher.class);
 

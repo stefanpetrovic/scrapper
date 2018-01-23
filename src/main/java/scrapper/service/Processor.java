@@ -81,7 +81,7 @@ public class Processor {
     private void sendEmail(List<Apartment> apartments, String emailSubject) {
         try {
             String emailContent = emailGenerator.generateEmailContent(apartments);
-            emailSender.sendEmail("petrovicstefan91@gmail.com", "petrovicstefan91@gmail.com", emailSubject, emailContent);
+            emailSender.sendEmail("petrovicstefan91@gmail.com", new String[] {"petrovicstefan91@gmail.com", "varda1993@gmail.com"}, emailSubject, emailContent);
         } catch (IOException e) {
             log.error("IO error occurred while sending email.", e);
         } catch (TemplateException e) {

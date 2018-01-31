@@ -31,6 +31,11 @@ public class NekretnineRSHTMLExtractor extends HTMLExtractorTemplate {
         int index = rawPrice.indexOf("m2");
         int index2 = rawPrice.indexOf("EUR");
 
+        if (index == -1 || index2 == -1) {
+            log.warn("Unable to parse raw price: {}", rawPrice);
+            return "0";
+        }
+
         try {
             return rawPrice.substring(index + 3, index2).trim();
         } catch(Exception e){

@@ -6,6 +6,7 @@ import scrapper.model.SmokingTestAnswer;
 import scrapper.repo.SmokingTestAnswerRepository;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class SmokingTestAnswerServiceImpl implements SmokingTestAnswerService {
@@ -25,5 +26,10 @@ public class SmokingTestAnswerServiceImpl implements SmokingTestAnswerService {
         repository.save(smokingTestAnswer);
 
         tokenService.invalidateToken(token);
+    }
+
+    @Override
+    public List<SmokingTestAnswer> findAll() {
+        return repository.findAll();
     }
 }

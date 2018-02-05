@@ -27,7 +27,10 @@ public class SendgridMailSender {
         Content content = new Content("text/html", body);
 
         Mail mail = new Mail(fromEmail, subject, toEmail, content);
-        addPersonalization(mail, toAddresses);
+        if (toAddresses.length > 1) {
+            addPersonalization(mail, toAddresses);
+        }
+
         String apikey = System.getenv(SENDGRID_API_KEY_ENV_VAR);
         SendGrid sendGrid = new SendGrid(apikey);
 

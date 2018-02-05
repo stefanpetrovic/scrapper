@@ -11,6 +11,14 @@ public class SmokingTestAnswer {
     private boolean smoked;
     private Date answerDate;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public boolean isSmoked() {
         return smoked;
     }

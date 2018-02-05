@@ -1,8 +1,8 @@
 <html>
 <body>
-<a href="http://localhost:8080/#/smoking-test?smoked=no"><input type="submit" value="Not smoked"/></a>
+<a href="http://foodysp.herokuapp.com/smoking-test?smoked=no&token=${token.value}"><input type="submit" value="Not smoked"/></a>
 <hr/>
-<a href="http://localhost:8080/#/smoking-test?smoked=yes"><input type="submit" value="Smoked"</a>
+<a href="http://foodysp.herokuapp.com/smoking-test?smoked=yes&token=${token.value}"><input type="submit" value="Smoked"</a>
 </table>
 </body>
 </html>

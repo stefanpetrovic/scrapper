@@ -1,0 +1,29 @@
+package scrapper.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import scrapper.model.SmokingTestAnswer;
+import scrapper.repo.SmokingTestAnswerRepository;
+
+import java.util.Date;
+
+@Service
+public class SmokingTestAnswerServiceImpl implements SmokingTestAnswerService {
+
+    @Autowired
+    private SmokingTestAnswerRepository repository;
+
+    @Autowired
+    private TokenService tokenService;
+
+    @Override
+    public void saveAnswer(boolean smoked, String token) {
+        SmokingTestAnswer smokingTestAnswer = new SmokingTestAnswer();
+        smokingTestAnswer.setSmoked(smoked);
+        smokingTestAnswer.setAnswerDate(new Date());
+
+        repository.save(smokingTestAnswer);
+
+        tokenService.invalidateToken(token);
+    }
+}

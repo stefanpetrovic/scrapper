@@ -9,6 +9,7 @@ public class Token {
     @Id
     private String id;
     private String value;
+    private boolean used;
     private Date expirationTimestamp;
 
     public String getId() {
@@ -25,6 +26,14 @@ public class Token {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
     }
 
     public Date getExpirationTimestamp() {

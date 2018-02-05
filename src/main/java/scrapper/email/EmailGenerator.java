@@ -6,6 +6,7 @@ import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import scrapper.model.Apartment;
+import scrapper.model.Token;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -26,11 +27,13 @@ public class EmailGenerator {
         map.put("apartments", apartmentList);
         return processTemplateIntoString(template, map);
     }
-/*
-    public String generateSmokingTestEmailContentO() throws IOException, TemplateException{
+
+    public String generateSmokingTestEmailContent(Token token) throws IOException, TemplateException{
         Template template = freemarkerConfig.getTemplate("smoking-test.ftl");
 
+        Map<String, Object> map = new HashMap<>();
+        map.put("token", token);
 
-
-    }*/
+        return processTemplateIntoString(template, map);
+    }
 }

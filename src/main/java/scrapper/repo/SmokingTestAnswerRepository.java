@@ -6,6 +6,4 @@ import scrapper.model.SmokingTestAnswer;
 
 @Repository
 public interface SmokingTestAnswerRepository extends MongoRepository<SmokingTestAnswer, String> {
-
-
 }

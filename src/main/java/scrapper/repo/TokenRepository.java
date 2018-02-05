@@ -11,5 +11,5 @@ public interface TokenRepository extends MongoRepository<Token, String> {
 
     Token findByValueAndExpirationTimestampAfter(String value, Date expirationTimestampAfter);
 
-
+    Token findByValue(String token);
 }

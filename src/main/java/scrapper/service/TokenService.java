@@ -7,4 +7,6 @@ public interface TokenService {
     Token generateUniqueToken();
 
     boolean isTokenValid(String token);
+
+    void invalidateToken(String token);
 }

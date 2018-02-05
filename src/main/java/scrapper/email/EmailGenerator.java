@@ -26,4 +26,11 @@ public class EmailGenerator {
         map.put("apartments", apartmentList);
         return processTemplateIntoString(template, map);
     }
+/*
+    public String generateSmokingTestEmailContentO() throws IOException, TemplateException{
+        Template template = freemarkerConfig.getTemplate("smoking-test.ftl");
+
+
+
+    }*/
 }

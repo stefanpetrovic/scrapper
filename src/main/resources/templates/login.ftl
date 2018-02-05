@@ -3,6 +3,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-signin-client_id" content="632311672196-h1s3ip2m2kgb66trm3plvoqp8c9jqkqu.apps.googleusercontent.com">
     <title>Scrapper</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -63,7 +64,7 @@
                                     </div>
                                 </div>
                             </form>
-                            <form id="register-form" action="https://phpoll.com/register/process" method="post" role="form" style="display: none;">
+                            <form id="register-form" action="" method="post" role="form" style="display: none;">
                                 <div class="form-group">
                                     <input type="text" name="username" tabindex="1" class="form-control" placeholder="Username" value="">
                                 </div>
@@ -84,6 +85,7 @@
                                     </div>
                                 </div>
                             </form>
+                            <div id="google-sign-in"></div>
                         </div>
                     </div>
                 </div>
@@ -92,8 +94,10 @@
     </div>
 </div>
 
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>
     $(function() {
@@ -111,8 +115,45 @@
             $('#login-form-link').removeClass('active');
             $(this).addClass('active');
             e.preventDefault();
+            gapi.signin2.render("google-sign-in", {
+                "scope": "profile email openid",
+                "width": 200,
+                "height": 40,
+                "longtitle": true,
+                "theme": "dark",
+                "onsuccess": function (googleUser) {
+                    onSignIn(googleUser);
+                },
+                "onfailure": function (e) {
+                    console.warn("Google Sign-In failure: " + e.error);
+                }
+            });
         });
 
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            var token = googleUser.getAuthResponse().id_token;
+            var name = profile.getId();
+            var email = profile.getEmail();
+
+            $.ajax({
+                type: "POST",
+                url: "/login/google",
+                data: JSON.stringify({
+                    "token": token,
+                    "name": name,
+                    "email": email
+                }),
+                contentType: "application/json",
+                success: function() {
+                    alert("success");
+                    $.cookie("foodyToken", token);
+                },
+                error: function() {
+                    alert("error");
+                }
+            });
+        };
     });
 </script>
 </body>

@@ -3,11 +3,28 @@ server:
     # 8 hours timeout
     timeout: 28800
 
+#security:
+#  user:
+#    name: st
+#    password: 12
+#    role: USER
+
 security:
-  user:
-    name: st
-    password: 12
-    role: USER
+  oauth2:
+    client:
+      clientId: 632311672196-h1s3ip2m2kgb66trm3plvoqp8c9jqkqu.apps.googleusercontent.com
+      clientSecret: ecsQjaoN0EI3dYCiHiRA22PI
+      accessTokenUri: https://www.googleapis.com/oauth2/v4/token
+      userAuthorizationUri: https://accounts.google.com/o/oauth2/v2/auth
+      clientAuthenticationScheme: form
+      scope:
+        - openid
+        - email
+        - profile
+    resource:
+      userInfoUri: https://www.googleapis.com/oauth2/v3/userinfo
+      #tokenInfoUri: https://www.googleapis.com/oauth2/v3/tokeninfo
+      preferTokenInfo: true
 
 spring:
   data:
@@ -29,3 +46,6 @@ processorConfig:
       - IZDAVANJE
     CITY_EXPERT:
       - IZDAVANJE
+
+
+#ecsQjaoN0EI3dYCiHiRA22PI

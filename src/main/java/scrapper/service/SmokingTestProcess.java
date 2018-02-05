@@ -26,7 +26,7 @@ public class SmokingTestProcess {
     @Autowired
     private TokenService tokenService;
 
-    @Scheduled(cron = "0 */5 7-23 * * *")
+    @Scheduled(cron = "0 0 7-23 * * *")
     public void sendSmokingTestEmail() {
         log.info("Started smoking test process");
         Token token = tokenService.generateUniqueToken();
@@ -40,6 +40,6 @@ public class SmokingTestProcess {
         } catch (TemplateException e) {
             log.error("TemplateException occurred: ", e);
         }
-        log.error("Finished smoking test process");
+        log.info("Finished smoking test process");
     }
 }

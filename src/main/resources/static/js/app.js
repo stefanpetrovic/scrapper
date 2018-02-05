@@ -3,7 +3,8 @@ var scrapperApp = angular.module('scrapperApp', [
     'ngResource',
     'blockUI',
     'ui.bootstrap',
-    'ngTagsInput'
+    'ngTagsInput',
+    'chart.js'
 ]);
 
 scrapperApp.filter('htmlToPlaintext', function() {

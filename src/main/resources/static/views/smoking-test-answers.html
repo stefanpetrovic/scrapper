@@ -1,12 +1,14 @@
 <div ng-controller="SmokingTestAnswersController">
-    <table class="table">
-        <tr>
-            <th>Date</th>
-            <th>Smoked</th>
-        </tr>
-        <tr ng-repeat="answer in answers">
-            <td>{{ answer.answerDate | date: 'dd-MM-yyyy HH:mm'}}</td>
-            <td>{{ answer.smoked ? 'YES' : 'NO' }}</td>
-        </tr>
-    </table>
+    <div class="row">
+        <div class="col-lg-3 col-sm-6">
+            <canvas id="pie" class="chart chart-pie"
+                    chart-data="pieChartData" chart-labels="pieChartLabels">
+            </canvas>
+        </div>
+        <div class="col-lg-9 col-sm-6">
+            <canvas id="bar" class="chart chart-bar"
+            chart-data="barChartData.data" chart-labels="barChartData.labels" chart-series="barChartData.series">
+            </canvas>
+        </div>
+    </div>
 </div>

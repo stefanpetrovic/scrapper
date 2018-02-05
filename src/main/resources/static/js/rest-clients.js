@@ -40,3 +40,9 @@ scrapperApp.factory("RecommenderConfigREST", function ($resource) {
         "recommenderConfig"
     );
 });
+
+scrapperApp.factory("SmokingTestAnswersREST", function($resource) {
+    return $resource(
+        "smokingtestanswers"
+    )
+});

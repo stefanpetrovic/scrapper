@@ -1,6 +1,7 @@
 package scrapper.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import scrapper.model.SmokingTestAnswer;
@@ -15,6 +16,7 @@ public class SmokingTestAnswersREST {
     @Autowired
     private SmokingTestAnswerService service;
 
+    @GetMapping
     public List<SmokingTestAnswer> getAllAnswers() {
         return service.findAll();
     }

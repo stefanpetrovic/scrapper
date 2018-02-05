@@ -12,6 +12,9 @@ angular.module('scrapperApp').config(['$routeProvider', function ($routeProvider
         })
         .when('/recommender-config', {
             templateUrl: 'views/recommender-config.html'
+        })
+        .when('/smoking-test-answers', {
+            templateUrl: 'views/smoking-test-answers.html'
         });
 
 }]);

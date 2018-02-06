@@ -3,13 +3,32 @@ scrapperApp.controller('SmokingTestAnswersController', function SmokingTestAnswe
     $scope.answers = [];
     $scope.pieChartLabels = ["Smoked", "Not smoked"];
     $scope.pieChartData = [1, 1];
-
-    $scope.answersGroupedByDay = [];
+    $scope.pointsData = {
+        allPoints: 0,
+        usedPoints: 0,
+        notUsedPoints: 0,
+        answerPointValue: 15
+    };
 
     $scope.barChartData = {
         labels: [],
         series: ['smoked', 'not smoked'],
         data: [[], []]
+    };
+
+    $scope.useAnswers = function(quantity) {
+        SmokingTestAnswersREST.save(
+            {
+                quantity: quantity / 15
+            },
+            {},
+            function(success) {
+
+            },
+            function(error) {
+                console.log(error.data.message);
+            }
+        );
     };
 
     SmokingTestAnswersREST.query(
@@ -18,6 +37,7 @@ scrapperApp.controller('SmokingTestAnswersController', function SmokingTestAnswe
             $scope.answers = success;
             generatePieChartData();
             groupAnswersByDate();
+            calculatePoints();
         },
         function(error) {
             console.log(error);
@@ -56,6 +76,19 @@ scrapperApp.controller('SmokingTestAnswersController', function SmokingTestAnswe
             $scope.barChartData.labels.push(moment(startOfDay).format('D-MM'));
             $scope.barChartData.data[0].push(smokedForDay.length);
             $scope.barChartData.data[1].push(notSmokedForDay.length);
+        }
+    }
+
+    function calculatePoints() {
+        var usedAnswers = $scope.answers.filter(function(answer) {return answer.used && !answer.smoked;});
+        var notUsedAnswers = $scope.answers.filter(function(answer) {return !answer.used && !answer.smoked;});
+
+        var allNotSmokedAnswers = $scope.answers.filter(function(answer) {return !answer.smoked;});
+
+        $scope.pointsData = {
+            allPoints: $scope.pointsData.answerPointValue * allNotSmokedAnswers.length,
+            usedPoints: $scope.pointsData.answerPointValue * usedAnswers.length,
+            notUsedPoints: $scope.pointsData.answerPointValue * notUsedAnswers.length
         }
     }
 });

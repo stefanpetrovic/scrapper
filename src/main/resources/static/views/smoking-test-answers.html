@@ -1,4 +1,35 @@
 <div ng-controller="SmokingTestAnswersController">
+
+    <form class="form-vertical">
+        <div class="form-group">
+            <div class="row input-row">
+                <div class="col-lg-6 col-sm-12 input-block">
+                    <label class="form-label">Osvojeni poeni</label>
+                    <input type="text" ng-value="pointsData.allPoints" disabled/>
+                </div>
+            </div>
+            <div class="row input-row">
+                <div class="col-lg-6 col-sm-12 input-block">
+                    <label class="form-label">Iskorisceni poeni</label>
+                    <input type="text" ng-value="pointsData.usedPoints" disabled/>
+                </div>
+            </div>
+            <div class="row input-row">
+                <div class="col-lg-6 col-sm-12 input-block">
+                    <label class="form-label">Iskoristi poene</label>
+                    <input type="text" ng-model="pointsToUse"/>
+                    <span class="help-block" ng-show="pointsToUse < 0 || pointsToUse % 15 != 0">Unesi ceo broj, deljiv sa 15.</span>
+                </div>
+            </div>
+            <div class="row input-row">
+                <div class="col-lg-6 col-sm-12 input-block">
+                    <input type="Submit" value="Iskoristi" ng-click="useAnswers(pointsToUse)"/>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <hr/>
     <div class="row">
         <div class="col-lg-3 col-sm-6">
             <canvas id="pie" class="chart chart-pie"

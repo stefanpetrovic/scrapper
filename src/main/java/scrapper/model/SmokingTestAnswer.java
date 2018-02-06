@@ -10,6 +10,7 @@ public class SmokingTestAnswer {
     private String id;
     private boolean smoked;
     private Date answerDate;
+    private boolean used;
 
     public String getId() {
         return id;
@@ -33,5 +34,13 @@ public class SmokingTestAnswer {
 
     public void setAnswerDate(Date answerDate) {
         this.answerDate = answerDate;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
     }
 }

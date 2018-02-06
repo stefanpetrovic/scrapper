@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import scrapper.model.SmokingTestAnswer;
 import scrapper.repo.SmokingTestAnswerRepository;
 
+import javax.validation.ValidationException;
 import java.util.Date;
 import java.util.List;
 
@@ -31,5 +32,20 @@ public class SmokingTestAnswerServiceImpl implements SmokingTestAnswerService {
     @Override
     public List<SmokingTestAnswer> findAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public void useAnswers(int quantity) {
+        List<SmokingTestAnswer> availableAnswers = repository.findAllByUsedFalseAndSmokedFalseOrderByAnswerDateAsc();
+
+        if (availableAnswers.size() >= quantity) {
+            for (int i = 0; i < quantity; i++) {
+                availableAnswers.get(i).setUsed(true);
+            }
+        } else {
+            throw new ValidationException("Not enough answers to use.");
+        }
+
+        repository.save(availableAnswers);
     }
 }

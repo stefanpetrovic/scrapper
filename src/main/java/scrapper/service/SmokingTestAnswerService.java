@@ -9,4 +9,6 @@ public interface SmokingTestAnswerService {
     void saveAnswer(boolean smoked, String token);
 
     List<SmokingTestAnswer> findAll();
+
+    void useAnswers(int quantity);
 }

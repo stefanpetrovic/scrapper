@@ -1,33 +1,27 @@
 <div ng-controller="SmokingTestAnswersController">
 
-    <form class="form-vertical">
-        <div class="form-group">
-            <div class="row input-row">
-                <div class="col-lg-6 col-sm-12 input-block">
-                    <label class="form-label">Osvojeni poeni</label>
-                    <input type="text" ng-value="pointsData.allPoints" disabled/>
+    <div class="row">
+        <div class="col-sm-12 col-lg-3">
+            <form class="form" name="iskoristiForma">
+                <div class="form-group">
+                    <label class="form-label">Ukupno ustedjeno:</label>
+                    <input type="text" class="form-control" ng-value="pointsData.allPoints" disabled/>
                 </div>
-            </div>
-            <div class="row input-row">
-                <div class="col-lg-6 col-sm-12 input-block">
-                    <label class="form-label">Iskorisceni poeni</label>
-                    <input type="text" ng-value="pointsData.usedPoints" disabled/>
+                <div class="form-group">
+                    <label class="form-label">Iskorisceno</label>
+                    <input type="text" class="form-control" ng-value="pointsData.usedPoints" disabled/>
                 </div>
-            </div>
-            <div class="row input-row">
-                <div class="col-lg-6 col-sm-12 input-block">
-                    <label class="form-label">Iskoristi poene</label>
-                    <input type="text" ng-model="pointsToUse"/>
-                    <span class="help-block" ng-show="pointsToUse < 0 || pointsToUse % 15 != 0">Unesi ceo broj, deljiv sa 15.</span>
+                <div class="form-group">
+                    <label class="form-label">Za iskoristiti</label>
+                    <input type="text" name="poeniZaIskoristiti" class="form-control" ng-model="pointsToUse"/>
+                    <span class="help-block" ng-show="iskoristiForma.poeniZaIskoristiti.$touched && pointsToUse % 15 != 0">Unesi ceo broj, deljiv sa 15.</span>
                 </div>
-            </div>
-            <div class="row input-row">
-                <div class="col-lg-6 col-sm-12 input-block">
-                    <input type="Submit" value="Iskoristi" ng-click="useAnswers(pointsToUse)"/>
+                <div class="form-group">
+                    <input type="Submit" class="form-control" value="Iskoristi" ng-click="useAnswers(pointsToUse)"/>
                 </div>
-            </div>
+            </form>
         </div>
-    </form>
+    </div>
 
     <hr/>
     <div class="row">

@@ -10,7 +10,7 @@ scrapperApp.controller('SmokingTestAnswersController', function SmokingTestAnswe
         answerPointValue: 15
     };
 
-    $scope.barChartData = {
+    $scope.barChartData1 = {
         labels: [],
         series: ['smoked', 'not smoked'],
         data: [[], []]
@@ -73,9 +73,9 @@ scrapperApp.controller('SmokingTestAnswersController', function SmokingTestAnswe
                 }
             }
 
-            $scope.barChartData.labels.push(moment(startOfDay).format('D-MM'));
-            $scope.barChartData.data[0].push(smokedForDay.length);
-            $scope.barChartData.data[1].push(notSmokedForDay.length);
+            $scope.barChartData1.labels.push(moment(startOfDay).format('D-MM'));
+            $scope.barChartData1.data[0].push(smokedForDay.length);
+            $scope.barChartData1.data[1].push(notSmokedForDay.length);
         }
     }
 

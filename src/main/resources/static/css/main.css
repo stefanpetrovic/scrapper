@@ -15,3 +15,6 @@ body {
     cursor: pointer;
 }
 
+.center-content {
+    text-align: center;
+}

@@ -20,7 +20,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public Token generateUniqueToken() {
-        Date expirationDate = new Date(new Date().getTime() + 1000 * 60 * 60 * 3);
+        Date expirationDate = new Date(new Date().getTime() + 1000 * 60 * 60 * 12);
 
         String tokenValue = UUID.randomUUID().toString();
 

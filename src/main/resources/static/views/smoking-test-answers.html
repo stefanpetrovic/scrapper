@@ -14,7 +14,7 @@
                 <div class="form-group">
                     <label class="form-label">Za iskoristiti</label>
                     <input type="text" name="poeniZaIskoristiti" class="form-control" ng-model="pointsToUse"/>
-                    <span class="help-block" ng-show="iskoristiForma.poeniZaIskoristiti.$touched && pointsToUse % 15 != 0">Unesi ceo broj, deljiv sa 15.</span>
+                    <span class="help-block" ng-show="iskoristiForma.poeniZaIskoristiti.$touched && pointsToUse % 20 != 0">Unesi ceo broj, deljiv sa 20.</span>
                 </div>
                 <div class="form-group">
                     <input type="Submit" class="form-control" value="Iskoristi" ng-click="useAnswers(pointsToUse)"/>

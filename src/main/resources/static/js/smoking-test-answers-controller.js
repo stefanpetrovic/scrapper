@@ -7,7 +7,7 @@ scrapperApp.controller('SmokingTestAnswersController', function SmokingTestAnswe
         allPoints: 0,
         usedPoints: 0,
         notUsedPoints: 0,
-        answerPointValue: 15
+        answerPointValue: 20
     };
 
     $scope.barChartData1 = {
@@ -19,7 +19,7 @@ scrapperApp.controller('SmokingTestAnswersController', function SmokingTestAnswe
     $scope.useAnswers = function(quantity) {
         SmokingTestAnswersREST.save(
             {
-                quantity: quantity / 15
+                quantity: quantity / 20
             },
             {},
             function(success) {

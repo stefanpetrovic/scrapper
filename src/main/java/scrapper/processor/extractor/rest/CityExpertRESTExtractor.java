@@ -54,6 +54,10 @@ public class CityExpertRESTExtractor implements RESTApartmentExtractor<CityExper
     private Double extractNumberOfRooms(CityExpertApartment apartment) {
         String nice = apartment.getStructure().replaceAll("\\+", "");
 
-        return Double.parseDouble(nice);
+        try {
+            return Double.parseDouble(nice);
+        } catch (NumberFormatException ex) {
+            return 0.0;
+        }
     }
 }
